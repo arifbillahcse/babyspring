@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Baby Springs — DMV's First Infant Hydrotherapy Wellness Studio</title>
-  <meta name="description" content="Gentle, development-focused hydrotherapy and infant massage in Bethesda, MD. Join the founding waitlist — limited to the first 100 families." />
+  <meta name="description" content="Gentle, development-focused care for your baby in a calm, private setting. Infant hydrotherapy & massage in Bethesda, Maryland. Limited to the first 100 families." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -77,15 +77,9 @@
     }
     .nav { display: flex; align-items: center; justify-content: space-between; }
     .brand { display: flex; align-items: center; gap: .7rem; }
-    .brand .mark {
-      width: 42px; height: 42px; border-radius: 50%;
-      display: grid; place-items: center;
-      background: radial-gradient(circle at 30% 30%, #fff, var(--cream-2));
-      box-shadow: inset 0 0 0 1px var(--line);
-    }
-    .brand .mark svg { width: 26px; height: 26px; }
-    .brand b { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; line-height: 1; }
-    .brand small { display: block; font-size: .52rem; letter-spacing: .32em; color: var(--muted); text-transform: uppercase; margin-top: 3px; }
+    .logo-nav { height: 54px; width: auto; transition: transform .4s var(--ease); }
+    .brand:hover .logo-nav { transform: scale(1.04); }
+    .logo-foot { height: 96px; width: auto; margin: 0 auto .8rem; }
     .nav-links { display: flex; align-items: center; gap: 2.2rem; }
     .nav-links a.link { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink); position: relative; }
     .nav-links a.link::after {
@@ -97,14 +91,13 @@
 
     /* ---------- Hero ---------- */
     .hero { padding: 9.5rem 0 4rem; position: relative; }
-    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 3.5rem; align-items: center; }
     .eyebrow {
       display: inline-block; background: rgba(138, 154, 123, .16); color: var(--sage-dark);
       padding: .45rem .9rem; font-size: .66rem; letter-spacing: .24em; text-transform: uppercase;
     }
-    .hero h1 { font-size: clamp(2.4rem, 4.6vw, 3.9rem); line-height: 1.06; margin: 1.4rem 0 1rem; }
-    .hero h1 .thin { font-style: italic; font-weight: 400; color: var(--sage-dark); }
-    .lede-italic { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.5rem; color: var(--muted); max-width: 26ch; }
+    .hero h1 { font-size: clamp(2.4rem, 4.4vw, 3.7rem); line-height: 1.08; margin: 1.4rem 0 1.2rem; }
+    .lede-italic { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.5rem; color: var(--muted); max-width: 30ch; }
     .rule { width: 70px; height: 2px; background: var(--taupe); margin: 1.8rem 0; border-radius: 2px; }
     .hero p.body { max-width: 46ch; color: #6d675c; margin-bottom: 2rem; }
     .badges { display: flex; flex-wrap: wrap; gap: 1.6rem; margin-top: 1.8rem; color: var(--muted); font-size: .78rem; }
@@ -114,10 +107,10 @@
     .hero-media { position: relative; }
     .hero-media .frame {
       border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
-      aspect-ratio: 4/4.3;
+      aspect-ratio: 1202/1308;
       background: linear-gradient(150deg, #e8ddc9 0%, #d8c7ac 45%, #c2a98a 100%);
     }
-    .hero-media img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); color: transparent; font-size: 0; }
+    .hero-media img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.02); color: transparent; font-size: 0; }
     .float-card {
       position: absolute; background: rgba(248, 245, 239, .9); backdrop-filter: blur(6px);
       border: 1px solid var(--line); border-radius: 12px; padding: .8rem 1.1rem;
@@ -161,7 +154,7 @@
     .card:hover .ic { background: var(--sage); transform: rotate(-8deg) scale(1.05); }
     .card .ic svg { width: 30px; height: 30px; color: var(--sage-dark); transition: color .5s var(--ease); }
     .card:hover .ic svg { color: #fff; }
-    .card h3 { font-size: 1.4rem; margin-bottom: .6rem; }
+    .card h3 { font-size: 1.4rem; margin-bottom: .6rem; line-height: 1.15; }
     .card p { font-size: .86rem; color: var(--muted); }
     .cta-inline { text-align: center; margin-top: 3rem; }
     .cta-inline small { display: block; margin-top: 1rem; color: var(--muted); font-size: .8rem; letter-spacing: .05em; }
@@ -197,7 +190,7 @@
     @keyframes pop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
     /* ---------- FAQ ---------- */
-    .faq-list { max-width: 760px; margin: 2.5rem auto 0; display: grid; gap: .8rem; }
+    .faq-list { max-width: 820px; margin: 2.5rem auto 0; display: grid; gap: .8rem; }
     .faq {
       background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
       transition: border-color .3s, box-shadow .3s;
@@ -206,7 +199,7 @@
     .faq-q {
       width: 100%; text-align: left; background: none; border: none; cursor: pointer;
       padding: 1.3rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-      font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--ink);
+      font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--ink);
     }
     .faq-q .plus { position: relative; width: 16px; height: 16px; flex: none; }
     .faq-q .plus::before, .faq-q .plus::after {
@@ -277,10 +270,7 @@
   <header id="header">
     <div class="wrap nav">
       <a class="brand" href="#top">
-        <span class="mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#8a9a7b" stroke-width="1.4"><path d="M12 21c-4-3-8-6-8-11a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 8-8 11z"/></svg>
-        </span>
-        <span><b>Baby Springs</b><small>Infant Wellness Studio</small></span>
+        <img class="logo-nav" src="image03.png" alt="Baby Springs — Infant Wellness Studio" />
       </a>
       <nav class="nav-links">
         <a class="link" href="#about">About</a>
@@ -308,17 +298,17 @@
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <span class="eyebrow reveal">Gentle Care. Stronger Foundations.</span>
-        <h1 class="reveal d1">DMV's First<br /><span class="thin">Infant Hydrotherapy</span><br />Wellness Studio</h1>
-        <p class="lede-italic reveal d2">Give your baby the strongest possible start — from the very first weeks.</p>
+        <h1 class="reveal d1">DMV's First<br />Infant Hydrotherapy Wellness Studio</h1>
+        <p class="lede-italic reveal d2">Designed to support your baby's development from the very beginning.</p>
         <div class="rule reveal d2"></div>
-        <p class="body reveal d2">Warm, private, one-on-one hydrotherapy and infant massage — the same nurturing practices trusted by families across Asia and Europe, now minutes from your home.</p>
+        <p class="body reveal d2">Gentle, development-focused care for your baby — in a calm, private setting, inspired by established wellness practices across Asia and Europe.</p>
         <div class="reveal d3">
           <a class="btn" href="#waitlist">Secure Your Spot
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>
         <div class="badges reveal d3">
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Only 100 founding spots</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Limited to first 100 families</span>
           <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Bethesda, Maryland</span>
           <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>Opening March 2027</span>
         </div>
@@ -326,11 +316,11 @@
 
       <div class="hero-media reveal d2">
         <div class="frame">
-          <img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=900&q=80" alt="Calm, spa-like infant wellness studio interior" />
+          <img src="image02.jpg" alt="Baby Springs infant hydrotherapy tub in a calm, spa-like studio" />
         </div>
         <div class="float-card fc-1">
           <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 15c3 2 5 2 9 0s6-2 9 0M3 10c3 2 5 2 9 0s6-2 9 0"/></svg></span>
-          <span><b>Warm-water therapy</b><small>Soothing & developmental</small></span>
+          <span><b>Warm-water therapy</b><small>Soothing &amp; developmental</small></span>
         </div>
         <div class="float-card fc-2">
           <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a6 6 0 0 0 0 12 6 6 0 0 1 0 6 9 9 0 0 0 0-18z"/></svg></span>
@@ -344,35 +334,35 @@
   <section class="band sec-pad" id="benefits">
     <span class="blob b2"></span>
     <div class="wrap center">
-      <h2 class="sec-title reveal">Where early development<br />meets intentional care.</h2>
-      <p class="sec-sub reveal d1">For generations across Asia and Europe, gentle water therapy and infant massage have helped babies grow stronger, sleep deeper, and bond closer. Now that care is here.</p>
+      <h2 class="sec-title reveal">Where early development meets intentional care.</h2>
+      <p class="sec-sub reveal d1">Across Asia and Europe, infant hydrotherapy and massage are valued for their role in early development and wellbeing.</p>
 
       <div class="cards" id="about">
         <div class="card reveal">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M9 15c1 1 5 1 6 0M9 10h.01M15 10h.01"/></svg></span>
-          <h3>Stronger, sooner</h3>
-          <p>Gentle water resistance builds muscle, coordination, and body awareness that carry into every milestone ahead.</p>
+          <h3>Supports development &amp; movement</h3>
+          <p>Encourages healthy physical growth and body awareness.</p>
         </div>
         <div class="card reveal d1">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.8A8 8 0 1 1 11 3a6 6 0 0 0 10 9.8z"/></svg></span>
-          <h3>Nights you'll both sleep through</h3>
-          <p>Warm-water therapy calms the nervous system, easing your baby into deeper, more restful sleep — and giving you yours back.</p>
+          <h3>Promotes better sleep</h3>
+          <p>Helps regulate and calm the nervous system.</p>
         </div>
         <div class="card reveal d2">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M15 20c0-2 1.5-3.5 3.5-3.5"/></svg></span>
-          <h3>Moments that bond you</h3>
-          <p>Unhurried, screen-free time together — the kind of closeness that shapes trust and connection from the very beginning.</p>
+          <h3>Enhances bonding &amp; connection</h3>
+          <p>Creates meaningful, uninterrupted time together.</p>
         </div>
         <div class="card reveal d3">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
-          <h3>Curious, awakened senses</h3>
-          <p>Rich sensory experiences spark early cognitive growth, feeding your baby's natural drive to explore and learn.</p>
+          <h3>Stimulates the senses</h3>
+          <p>Supports early sensory and cognitive development.</p>
         </div>
       </div>
 
       <div class="cta-inline reveal">
         <a class="btn" href="#waitlist">Secure Your Spot</a>
-        <small>Limited access — founding families first.</small>
+        <small>Limited access available.</small>
       </div>
     </div>
   </section>
@@ -381,18 +371,18 @@
   <section class="sec-pad" id="waitlist">
     <div class="wrap wl-grid">
       <div class="wl-media reveal">
-        <img src="https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=800&q=80" alt="Serene infant care nursery corner" />
+        <img src="image01.jpg" alt="Serene infant wellness nursery setting" />
       </div>
 
       <div class="wl-right">
         <div class="wl-copy reveal d1">
-          <h2>A founding place<br />for 100 families.</h2>
-          <p>Be among the very first to give your baby a new standard of gentle, development-focused care — before doors open to everyone else.</p>
-          <p>Early booking opens in limited phases, and waitlist families are always first in line.</p>
+          <h2>For a limited number of founding families</h2>
+          <p>Be among the first to experience a new standard in infant wellness.</p>
+          <p>Early access to bookings will be offered in limited phases, starting with waitlist members.</p>
           <ul class="facts">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Bethesda, Maryland</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>Opening March 2027</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Strictly limited to the first 100 families</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Limited to first 100 families.</li>
           </ul>
         </div>
 
@@ -404,7 +394,7 @@
             <button class="btn" type="submit">Secure Your Spot
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
-            <p class="form-note">You'll receive early booking access, founding-member benefits, and priority scheduling.</p>
+            <p class="form-note">You'll receive early booking access, founding member benefits, and priority scheduling.</p>
           </div>
           <div class="success" id="success">
             <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></div>
@@ -424,20 +414,20 @@
 
       <div class="faq-list">
         <div class="faq reveal">
-          <button class="faq-q">Is this safe for my baby? <span class="plus"></span></button>
-          <div class="faq-a"><p>Absolutely. Every session is gentle, supervised one-on-one, and designed around your baby's comfort. Water temperature, timing, and handling follow careful, established wellness standards used by infant hydrotherapy practices worldwide.</p></div>
+          <button class="faq-q">Is this safe for babies? <span class="plus"></span></button>
+          <div class="faq-a"><p>Yes. Every session is gentle, supervised one-on-one, and designed around your baby's comfort. Water temperature, timing, and handling follow careful, established wellness standards used by infant hydrotherapy practices across Asia and Europe.</p></div>
         </div>
         <div class="faq reveal d1">
-          <button class="faq-q">What age is it for? <span class="plus"></span></button>
-          <div class="faq-a"><p>Our care is designed for infants from just a few weeks old through the toddler years. Sessions are always tailored to your baby's stage, so the experience grows right alongside them.</p></div>
+          <button class="faq-q">What age is this for? <span class="plus"></span></button>
+          <div class="faq-a"><p>Our care is designed for infants from just a few weeks old through the toddler years. Each session is tailored to your baby's stage of development.</p></div>
         </div>
         <div class="faq reveal d2">
           <button class="faq-q">When are you opening? <span class="plus"></span></button>
-          <div class="faq-a"><p>We open in Bethesda, Maryland in March 2027. Founding waitlist families get first access to bookings — well before public availability.</p></div>
+          <div class="faq-a"><p>We open in Bethesda, Maryland in March 2027. Founding waitlist families receive first access to bookings ahead of public availability.</p></div>
         </div>
         <div class="faq reveal d3">
           <button class="faq-q">How long is a session? <span class="plus"></span></button>
-          <div class="faq-a"><p>Sessions typically run 30–45 minutes, including warm-water hydrotherapy and gentle massage, with plenty of unhurried time to settle in and bond.</p></div>
+          <div class="faq-a"><p>Sessions typically run 30–45 minutes, including warm-water hydrotherapy and gentle massage, with unhurried time to settle in and bond.</p></div>
         </div>
       </div>
     </div>
@@ -447,9 +437,8 @@
   <footer>
     <div class="wrap foot">
       <div class="meta" style="flex:1;min-width:260px;">
-        <a class="brand" href="#top">
-          <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#8a9a7b" stroke-width="1.4"><path d="M12 21c-4-3-8-6-8-11a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 8-8 11z"/></svg></span>
-          <span><b>Baby Springs</b><small>Infant Wellness Studio</small></span>
+        <a class="brand" href="#top" style="justify-content:center;">
+          <img class="logo-foot" src="image03.png" alt="Baby Springs — Infant Wellness Studio" />
         </a>
         Bethesda, Maryland · Opening March 2027<br />
         © 2026 Baby Springs. All rights reserved.
@@ -464,26 +453,22 @@
   </footer>
 
   <script>
-    // Sticky nav shadow
     const header = document.getElementById('header');
     const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 30);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Scroll reveal
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
     }, { threshold: 0.14 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // Parallax hero image
     const heroImg = document.querySelector('.hero-media img');
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
-      if (y < 700 && heroImg) heroImg.style.transform = `scale(1.04) translateY(${y * 0.06}px)`;
+      if (y < 700 && heroImg) heroImg.style.transform = `scale(1.02) translateY(${y * 0.05}px)`;
     }, { passive: true });
 
-    // FAQ accordion
     document.querySelectorAll('.faq-q').forEach(btn => {
       btn.addEventListener('click', () => {
         const faq = btn.parentElement;
@@ -494,20 +479,15 @@
       });
     });
 
-    // Mobile menu
     const mm = document.getElementById('mobileMenu');
     document.getElementById('menuBtn').addEventListener('click', () => mm.classList.add('open'));
     document.getElementById('closeMenu').addEventListener('click', () => mm.classList.remove('open'));
     mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
 
-    // Form submit
     document.getElementById('waitForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const f = e.target;
-      if (!f.name.value.trim() || !f.email.value.trim()) {
-        f.reportValidity?.();
-        return;
-      }
+      if (!f.name.value.trim() || !f.email.value.trim()) { f.reportValidity?.(); return; }
       document.getElementById('formInner').style.display = 'none';
       document.getElementById('success').classList.add('show');
     });
