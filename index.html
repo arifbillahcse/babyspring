@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baby Springs — DMV's First Infant Hydrotherapy Wellness Studio</title>
+  <meta name="description" content="Gentle, development-focused hydrotherapy and infant massage in Bethesda, MD. Join the founding waitlist — limited to the first 100 families." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --cream: #f4f0e8;
+      --cream-2: #efe9df;
+      --card: #f8f5ef;
+      --sage: #8a9a7b;
+      --sage-dark: #6f7f62;
+      --taupe: #c9b8a3;
+      --ink: #3a3730;
+      --muted: #8a8478;
+      --line: #e2dacb;
+      --radius: 14px;
+      --shadow: 0 18px 45px -20px rgba(90, 80, 60, .35);
+      --ease: cubic-bezier(.22, .61, .36, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+      font-weight: 300;
+    }
+    h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .wrap { width: min(1180px, 92%); margin: 0 auto; }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+      background: var(--sage); color: #fff;
+      padding: 1rem 2rem; border: none; border-radius: 8px;
+      font-family: 'Jost', sans-serif; font-size: .8rem; font-weight: 400;
+      letter-spacing: .18em; text-transform: uppercase; cursor: pointer;
+      position: relative; overflow: hidden; isolation: isolate;
+      transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+      box-shadow: 0 10px 25px -12px rgba(112, 127, 98, .8);
+    }
+    .btn::after {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: var(--sage-dark);
+      transform: translateY(101%); transition: transform .45s var(--ease);
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 20px 35px -14px rgba(112, 127, 98, .9); }
+    .btn:hover::after { transform: translateY(0); }
+    .btn.ghost { background: transparent; color: var(--sage-dark); box-shadow: none; padding: .6rem 1.4rem; }
+    .btn.ghost::after { background: var(--sage); }
+    .btn.ghost:hover { color: #fff; }
+
+    /* ---------- Nav ---------- */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      transition: background .4s var(--ease), box-shadow .4s var(--ease), padding .4s var(--ease);
+      padding: 1.4rem 0;
+    }
+    header.scrolled {
+      background: rgba(244, 240, 232, .82);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 var(--line);
+      padding: .8rem 0;
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: .7rem; }
+    .brand .mark {
+      width: 42px; height: 42px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: radial-gradient(circle at 30% 30%, #fff, var(--cream-2));
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+    .brand .mark svg { width: 26px; height: 26px; }
+    .brand b { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; line-height: 1; }
+    .brand small { display: block; font-size: .52rem; letter-spacing: .32em; color: var(--muted); text-transform: uppercase; margin-top: 3px; }
+    .nav-links { display: flex; align-items: center; gap: 2.2rem; }
+    .nav-links a.link { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink); position: relative; }
+    .nav-links a.link::after {
+      content: ""; position: absolute; left: 0; bottom: -6px; height: 1px; width: 0; background: var(--sage);
+      transition: width .35s var(--ease);
+    }
+    .nav-links a.link:hover::after { width: 100%; }
+    .menu-btn { display: none; background: none; border: none; cursor: pointer; }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 9.5rem 0 4rem; position: relative; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+    .eyebrow {
+      display: inline-block; background: rgba(138, 154, 123, .16); color: var(--sage-dark);
+      padding: .45rem .9rem; font-size: .66rem; letter-spacing: .24em; text-transform: uppercase;
+    }
+    .hero h1 { font-size: clamp(2.4rem, 4.6vw, 3.9rem); line-height: 1.06; margin: 1.4rem 0 1rem; }
+    .hero h1 .thin { font-style: italic; font-weight: 400; color: var(--sage-dark); }
+    .lede-italic { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.5rem; color: var(--muted); max-width: 26ch; }
+    .rule { width: 70px; height: 2px; background: var(--taupe); margin: 1.8rem 0; border-radius: 2px; }
+    .hero p.body { max-width: 46ch; color: #6d675c; margin-bottom: 2rem; }
+    .badges { display: flex; flex-wrap: wrap; gap: 1.6rem; margin-top: 1.8rem; color: var(--muted); font-size: .78rem; }
+    .badges span { display: inline-flex; align-items: center; gap: .5rem; }
+    .badges svg { width: 15px; height: 15px; color: var(--sage); }
+
+    .hero-media { position: relative; }
+    .hero-media .frame {
+      border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
+      aspect-ratio: 4/4.3;
+      background: linear-gradient(150deg, #e8ddc9 0%, #d8c7ac 45%, #c2a98a 100%);
+    }
+    .hero-media img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); color: transparent; font-size: 0; }
+    .float-card {
+      position: absolute; background: rgba(248, 245, 239, .9); backdrop-filter: blur(6px);
+      border: 1px solid var(--line); border-radius: 12px; padding: .8rem 1.1rem;
+      box-shadow: var(--shadow); display: flex; align-items: center; gap: .7rem;
+      animation: float 5s ease-in-out infinite;
+    }
+    .float-card .dot { width: 34px; height: 34px; border-radius: 50%; background: rgba(138,154,123,.18); display: grid; place-items: center; }
+    .float-card .dot svg { width: 18px; height: 18px; color: var(--sage-dark); }
+    .float-card b { font-family: 'Jost'; font-weight: 500; font-size: .8rem; display: block; }
+    .float-card small { color: var(--muted); font-size: .68rem; }
+    .fc-1 { bottom: 26px; left: -26px; animation-delay: .2s; }
+    .fc-2 { top: 40px; right: -22px; animation-delay: 1.4s; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+    /* decorative blobs */
+    .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .5; z-index: -1; }
+    .blob.b1 { width: 380px; height: 380px; background: rgba(201,184,163,.5); top: -80px; right: -120px; }
+    .blob.b2 { width: 320px; height: 320px; background: rgba(138,154,123,.28); bottom: -120px; left: -120px; }
+
+    /* ---------- Section shell ---------- */
+    section { position: relative; }
+    .band { background: var(--cream-2); }
+    .sec-pad { padding: 6rem 0; }
+    .center { text-align: center; }
+    .sec-title { font-size: clamp(1.9rem, 3.4vw, 2.9rem); line-height: 1.1; }
+    .sec-sub { color: var(--muted); max-width: 52ch; margin: 1.1rem auto 0; }
+
+    /* ---------- Benefits ---------- */
+    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 3.5rem; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 2.2rem 1.5rem; text-align: center;
+      transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease);
+    }
+    .card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--taupe); }
+    .card .ic {
+      width: 64px; height: 64px; margin: 0 auto 1.3rem; border-radius: 50%;
+      display: grid; place-items: center; background: rgba(138,154,123,.12);
+      transition: background .5s var(--ease), transform .5s var(--ease);
+    }
+    .card:hover .ic { background: var(--sage); transform: rotate(-8deg) scale(1.05); }
+    .card .ic svg { width: 30px; height: 30px; color: var(--sage-dark); transition: color .5s var(--ease); }
+    .card:hover .ic svg { color: #fff; }
+    .card h3 { font-size: 1.4rem; margin-bottom: .6rem; }
+    .card p { font-size: .86rem; color: var(--muted); }
+    .cta-inline { text-align: center; margin-top: 3rem; }
+    .cta-inline small { display: block; margin-top: 1rem; color: var(--muted); font-size: .8rem; letter-spacing: .05em; }
+
+    /* ---------- Waitlist ---------- */
+    .wl-grid { display: grid; grid-template-columns: .9fr 1fr; gap: 3rem; align-items: center; }
+    .wl-media { border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 1/1.05;
+      background: linear-gradient(150deg, #e8ddc9 0%, #d3c1a4 50%, #b89a78 100%); }
+    .wl-media img { width: 100%; height: 100%; object-fit: cover; color: transparent; font-size: 0; }
+    .wl-right { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+    .wl-copy h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); line-height: 1.12; margin-bottom: 1rem; }
+    .wl-copy p { color: #6d675c; font-size: .92rem; margin-bottom: 1rem; }
+    .facts { list-style: none; margin-top: 1.4rem; display: grid; gap: .8rem; }
+    .facts li { display: flex; align-items: center; gap: .7rem; font-size: .86rem; color: var(--ink); }
+    .facts svg { width: 17px; height: 17px; color: var(--sage); flex: none; }
+
+    form.wl-form { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); }
+    .field { position: relative; margin-bottom: 1rem; }
+    .field input {
+      width: 100%; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 8px;
+      background: #fff; font-family: 'Jost'; font-size: .9rem; color: var(--ink);
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .field input::placeholder { color: #b3ad9f; }
+    .field input:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(138,154,123,.15); }
+    form.wl-form .btn { width: 100%; margin-top: .4rem; }
+    .form-note { font-size: .78rem; color: var(--muted); margin-top: 1rem; text-align: center; }
+    .success { display: none; text-align: center; padding: 1rem 0; }
+    .success.show { display: block; animation: pop .5s var(--ease); }
+    .success .check { width: 56px; height: 56px; margin: 0 auto 1rem; border-radius: 50%; background: var(--sage); display: grid; place-items: center; }
+    .success .check svg { width: 28px; height: 28px; color: #fff; }
+    .success h3 { font-size: 1.6rem; }
+    @keyframes pop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    /* ---------- FAQ ---------- */
+    .faq-list { max-width: 760px; margin: 2.5rem auto 0; display: grid; gap: .8rem; }
+    .faq {
+      background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .faq.open { border-color: var(--taupe); box-shadow: var(--shadow); }
+    .faq-q {
+      width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+      padding: 1.3rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--ink);
+    }
+    .faq-q .plus { position: relative; width: 16px; height: 16px; flex: none; }
+    .faq-q .plus::before, .faq-q .plus::after {
+      content: ""; position: absolute; background: var(--sage); border-radius: 2px;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      transition: transform .35s var(--ease);
+    }
+    .faq-q .plus::before { width: 16px; height: 2px; }
+    .faq-q .plus::after { width: 2px; height: 16px; }
+    .faq.open .plus::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s var(--ease); }
+    .faq-a p { padding: 0 1.5rem 1.4rem; color: var(--muted); font-size: .9rem; }
+
+    /* ---------- Footer ---------- */
+    footer { background: var(--cream-2); border-top: 1px solid var(--line); padding: 3.5rem 0 2rem; }
+    .foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+    .foot .meta { text-align: center; color: var(--muted); font-size: .82rem; }
+    .foot .meta .brand { justify-content: center; margin-bottom: .8rem; }
+    .socials { display: flex; gap: .7rem; }
+    .socials a {
+      width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 9px;
+      display: grid; place-items: center; background: #fff; color: var(--sage-dark);
+      transition: transform .35s var(--ease), background .35s var(--ease), color .35s var(--ease);
+    }
+    .socials a:hover { transform: translateY(-4px); background: var(--sage); color: #fff; }
+    .socials svg { width: 18px; height: 18px; }
+
+    /* ---------- Reveal animation ---------- */
+    .reveal { opacity: 0; transform: translateY(34px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: .08s; }
+    .reveal.d2 { transition-delay: .16s; }
+    .reveal.d3 { transition-delay: .24s; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+      .float-card { animation: none; }
+      * { scroll-behavior: auto; }
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      .hero-grid, .wl-grid { grid-template-columns: 1fr; }
+      .wl-right { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .hero-media { order: -1; }
+      .fc-1 { left: 10px; } .fc-2 { right: 10px; }
+    }
+    @media (max-width: 620px) {
+      .nav-links .link, .nav-links .btn.ghost { display: none; }
+      .menu-btn { display: block; }
+      .cards { grid-template-columns: 1fr; }
+      .hero { padding-top: 7.5rem; }
+      .badges { gap: 1rem; }
+    }
+    /* mobile menu */
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 99; background: rgba(244,240,232,.97); backdrop-filter: blur(10px);
+      display: none; flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; animation: pop .3s var(--ease); }
+    .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; }
+    .mobile-menu .close { position: absolute; top: 1.6rem; right: 6%; background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--ink); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV ===== -->
+  <header id="header">
+    <div class="wrap nav">
+      <a class="brand" href="#top">
+        <span class="mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8a9a7b" stroke-width="1.4"><path d="M12 21c-4-3-8-6-8-11a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 8-8 11z"/></svg>
+        </span>
+        <span><b>Baby Springs</b><small>Infant Wellness Studio</small></span>
+      </a>
+      <nav class="nav-links">
+        <a class="link" href="#about">About</a>
+        <a class="link" href="#benefits">Benefits</a>
+        <a class="link" href="#faq">FAQ</a>
+        <a class="btn ghost" href="#waitlist">Secure Your Spot</a>
+      </nav>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3a3730" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close" id="closeMenu" aria-label="Close menu">&times;</button>
+    <a href="#about">About</a>
+    <a href="#benefits">Benefits</a>
+    <a href="#faq">FAQ</a>
+    <a class="btn" href="#waitlist">Secure Your Spot</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="blob b1"></span>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow reveal">Gentle Care. Stronger Foundations.</span>
+        <h1 class="reveal d1">DMV's First<br /><span class="thin">Infant Hydrotherapy</span><br />Wellness Studio</h1>
+        <p class="lede-italic reveal d2">Give your baby the strongest possible start — from the very first weeks.</p>
+        <div class="rule reveal d2"></div>
+        <p class="body reveal d2">Warm, private, one-on-one hydrotherapy and infant massage — the same nurturing practices trusted by families across Asia and Europe, now minutes from your home.</p>
+        <div class="reveal d3">
+          <a class="btn" href="#waitlist">Secure Your Spot
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="badges reveal d3">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Only 100 founding spots</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Bethesda, Maryland</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>Opening March 2027</span>
+        </div>
+      </div>
+
+      <div class="hero-media reveal d2">
+        <div class="frame">
+          <img src="https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=900&q=80" alt="Calm, spa-like infant wellness studio interior" />
+        </div>
+        <div class="float-card fc-1">
+          <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 15c3 2 5 2 9 0s6-2 9 0M3 10c3 2 5 2 9 0s6-2 9 0"/></svg></span>
+          <span><b>Warm-water therapy</b><small>Soothing & developmental</small></span>
+        </div>
+        <div class="float-card fc-2">
+          <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a6 6 0 0 0 0 12 6 6 0 0 1 0 6 9 9 0 0 0 0-18z"/></svg></span>
+          <span><b>Restful sleep</b><small>Calmer nights</small></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BENEFITS ===== -->
+  <section class="band sec-pad" id="benefits">
+    <span class="blob b2"></span>
+    <div class="wrap center">
+      <h2 class="sec-title reveal">Where early development<br />meets intentional care.</h2>
+      <p class="sec-sub reveal d1">For generations across Asia and Europe, gentle water therapy and infant massage have helped babies grow stronger, sleep deeper, and bond closer. Now that care is here.</p>
+
+      <div class="cards" id="about">
+        <div class="card reveal">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M9 15c1 1 5 1 6 0M9 10h.01M15 10h.01"/></svg></span>
+          <h3>Stronger, sooner</h3>
+          <p>Gentle water resistance builds muscle, coordination, and body awareness that carry into every milestone ahead.</p>
+        </div>
+        <div class="card reveal d1">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.8A8 8 0 1 1 11 3a6 6 0 0 0 10 9.8z"/></svg></span>
+          <h3>Nights you'll both sleep through</h3>
+          <p>Warm-water therapy calms the nervous system, easing your baby into deeper, more restful sleep — and giving you yours back.</p>
+        </div>
+        <div class="card reveal d2">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M15 20c0-2 1.5-3.5 3.5-3.5"/></svg></span>
+          <h3>Moments that bond you</h3>
+          <p>Unhurried, screen-free time together — the kind of closeness that shapes trust and connection from the very beginning.</p>
+        </div>
+        <div class="card reveal d3">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+          <h3>Curious, awakened senses</h3>
+          <p>Rich sensory experiences spark early cognitive growth, feeding your baby's natural drive to explore and learn.</p>
+        </div>
+      </div>
+
+      <div class="cta-inline reveal">
+        <a class="btn" href="#waitlist">Secure Your Spot</a>
+        <small>Limited access — founding families first.</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WAITLIST ===== -->
+  <section class="sec-pad" id="waitlist">
+    <div class="wrap wl-grid">
+      <div class="wl-media reveal">
+        <img src="https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=800&q=80" alt="Serene infant care nursery corner" />
+      </div>
+
+      <div class="wl-right">
+        <div class="wl-copy reveal d1">
+          <h2>A founding place<br />for 100 families.</h2>
+          <p>Be among the very first to give your baby a new standard of gentle, development-focused care — before doors open to everyone else.</p>
+          <p>Early booking opens in limited phases, and waitlist families are always first in line.</p>
+          <ul class="facts">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Bethesda, Maryland</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>Opening March 2027</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Strictly limited to the first 100 families</li>
+          </ul>
+        </div>
+
+        <form class="wl-form reveal d2" id="waitForm" novalidate>
+          <div id="formInner">
+            <div class="field"><input type="text" name="name" placeholder="Name" required /></div>
+            <div class="field"><input type="email" name="email" placeholder="Email Address" required /></div>
+            <div class="field"><input type="text" name="baby" placeholder="Baby's Age or Due Date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" /></div>
+            <button class="btn" type="submit">Secure Your Spot
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p class="form-note">You'll receive early booking access, founding-member benefits, and priority scheduling.</p>
+          </div>
+          <div class="success" id="success">
+            <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></div>
+            <h3>You're on the list.</h3>
+            <p class="form-note">Welcome, founding family. We'll be in touch with your early access details soon.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="band sec-pad" id="faq">
+    <div class="wrap center">
+      <h2 class="sec-title reveal">Frequently asked questions</h2>
+      <p class="sec-sub reveal d1">Have another question? <a href="#waitlist" style="color:var(--sage-dark);text-decoration:underline;">We'd love to hear from you.</a></p>
+
+      <div class="faq-list">
+        <div class="faq reveal">
+          <button class="faq-q">Is this safe for my baby? <span class="plus"></span></button>
+          <div class="faq-a"><p>Absolutely. Every session is gentle, supervised one-on-one, and designed around your baby's comfort. Water temperature, timing, and handling follow careful, established wellness standards used by infant hydrotherapy practices worldwide.</p></div>
+        </div>
+        <div class="faq reveal d1">
+          <button class="faq-q">What age is it for? <span class="plus"></span></button>
+          <div class="faq-a"><p>Our care is designed for infants from just a few weeks old through the toddler years. Sessions are always tailored to your baby's stage, so the experience grows right alongside them.</p></div>
+        </div>
+        <div class="faq reveal d2">
+          <button class="faq-q">When are you opening? <span class="plus"></span></button>
+          <div class="faq-a"><p>We open in Bethesda, Maryland in March 2027. Founding waitlist families get first access to bookings — well before public availability.</p></div>
+        </div>
+        <div class="faq reveal d3">
+          <button class="faq-q">How long is a session? <span class="plus"></span></button>
+          <div class="faq-a"><p>Sessions typically run 30–45 minutes, including warm-water hydrotherapy and gentle massage, with plenty of unhurried time to settle in and bond.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="wrap foot">
+      <div class="meta" style="flex:1;min-width:260px;">
+        <a class="brand" href="#top">
+          <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#8a9a7b" stroke-width="1.4"><path d="M12 21c-4-3-8-6-8-11a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 8-8 11z"/></svg></span>
+          <span><b>Baby Springs</b><small>Infant Wellness Studio</small></span>
+        </a>
+        Bethesda, Maryland · Opening March 2027<br />
+        © 2026 Baby Springs. All rights reserved.
+      </div>
+      <div class="socials">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3 1-3 3v2H8v3h3v7h3v-7h2.5l.5-3H14v-1.5c0-.6.4-1 1-1z"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2 1.7 3.6 4 4v3c-1.5 0-3-.5-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3h3z"/></svg></a>
+        <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-4 19.2c-.1-.8-.2-2 0-2.9l1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.9 0 1.3.6 1.3 1.5 0 .9-.6 2.2-.9 3.4-.2 1 .5 1.8 1.5 1.8 1.8 0 3-2.3 3-5 0-2-1.4-3.6-3.9-3.6-2.9 0-4.6 2.1-4.6 4.4 0 .9.3 1.5.7 2 .2.2.2.3.1.6l-.2.9c-.1.3-.3.4-.6.2-1.2-.5-1.8-1.9-1.8-3.5 0-2.6 2.2-5.7 6.6-5.7 3.5 0 5.8 2.5 5.8 5.3 0 3.6-2 6.3-4.9 6.3-1 0-1.9-.5-2.2-1.1l-.6 2.4c-.2.8-.7 1.7-1 2.3A10 10 0 1 0 12 2z"/></svg></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky nav shadow
+    const header = document.getElementById('header');
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 30);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Parallax hero image
+    const heroImg = document.querySelector('.hero-media img');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < 700 && heroImg) heroImg.style.transform = `scale(1.04) translateY(${y * 0.06}px)`;
+    }, { passive: true });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const faq = btn.parentElement;
+        const ans = btn.nextElementSibling;
+        const isOpen = faq.classList.contains('open');
+        document.querySelectorAll('.faq').forEach(f => { f.classList.remove('open'); f.querySelector('.faq-a').style.maxHeight = null; });
+        if (!isOpen) { faq.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
+      });
+    });
+
+    // Mobile menu
+    const mm = document.getElementById('mobileMenu');
+    document.getElementById('menuBtn').addEventListener('click', () => mm.classList.add('open'));
+    document.getElementById('closeMenu').addEventListener('click', () => mm.classList.remove('open'));
+    mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
+
+    // Form submit
+    document.getElementById('waitForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = e.target;
+      if (!f.name.value.trim() || !f.email.value.trim()) {
+        f.reportValidity?.();
+        return;
+      }
+      document.getElementById('formInner').style.display = 'none';
+      document.getElementById('success').classList.add('show');
+    });
+  </script>
+</body>
+</html>
