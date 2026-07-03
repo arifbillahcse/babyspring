@@ -74,12 +74,12 @@
       background: rgba(244, 240, 232, .88);
       backdrop-filter: blur(12px);
       box-shadow: 0 1px 0 var(--line);
-      padding: 1rem 0;
+      padding: .55rem 0;
     }
     .nav { display: flex; align-items: center; justify-content: space-between; }
     .brand { display: flex; align-items: center; gap: .7rem; }
     .logo-nav { height: 84px; width: auto; transition: transform .4s var(--ease), height .4s var(--ease); }
-    header.scrolled .logo-nav { height: 68px; }
+    header.scrolled .logo-nav { height: 52px; }
     .brand:hover .logo-nav { transform: scale(1.04); }
     .logo-foot { height: 150px; width: auto; margin: 0 auto .8rem; }
     .nav-links { display: flex; align-items: center; gap: 2.4rem; }
@@ -99,7 +99,7 @@
       display: inline-block; background: rgba(138, 154, 123, .16); color: var(--sage-dark);
       padding: .5rem 1rem; font-size: .76rem; letter-spacing: .2em; text-transform: uppercase;
     }
-    .hero h1 { font-size: clamp(2.6rem, 4.6vw, 3.9rem); line-height: 1.08; margin: 1.4rem 0 1.2rem; }
+    .hero h1 { font-size: clamp(2.2rem, 4.1vw, 3.5rem); line-height: 1.1; margin: 1.4rem 0 1.2rem; }
     .lede-italic { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.6rem; color: var(--muted); max-width: 30ch; }
     .rule { width: 70px; height: 2px; background: var(--taupe); margin: 1.8rem 0; border-radius: 2px; }
     .hero p.body { max-width: 46ch; color: #6d675c; margin-bottom: 2rem; font-size: 1.05rem; }
@@ -271,8 +271,12 @@
       .hero-grid, .wl-grid { grid-template-columns: 1fr; }
       .cards, .steps { grid-template-columns: repeat(2, 1fr); }
       .steps::before { display: none; }
-      .hero-media { order: -1; }
-      .fc-1 { left: 10px; } .fc-2 { right: 10px; }
+      /* Below this width the hero image is too narrow for the floating
+         cards to sit on top of it without covering it, so they drop out
+         of the image and sit as a plain two-up row underneath instead. */
+      .hero-media { order: -1; display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+      .hero-media .frame { grid-column: 1 / -1; }
+      .float-card { position: static; width: 100%; animation: none; }
     }
     @media (max-width: 620px) {
       .nav-links .link, .nav-links .btn { display: none; }
