@@ -574,15 +574,29 @@
     //    "Baby Springs Waitlist" → the List ID shown in the list settings).
     const KLAVIYO_LIST_ID = "Um8kBy";
 
-    // Klaviyo's list-subscribe endpoint. Every field posted here becomes
-    // a profile property in Klaviyo. Submitting to this endpoint with
-    // g=<list id> adds the profile to the "Baby Springs Waitlist" list,
-    // which is exactly what triggers the "Baby Springs Waitlist Welcome"
-    // flow in Klaviyo (that flow's trigger is: "Someone is added to list:
-    // Baby Springs Waitlist"). No extra API call is needed to send the
-    // welcome email — Klaviyo fires it automatically once this request
-    // succeeds.
-    const KLAVIYO_SUBSCRIBE_URL = "https://manage.kmail-lists.com/ajax/subscriptions/subscribe";
+    // 2) Set your Klaviyo Public API Key here (Klaviyo → Settings → API
+    //    Keys → "Public API Key" / Site ID — safe to expose in front-end
+    //    code, this is not the Private API Key).
+    const KLAVIYO_PUBLIC_API_KEY = "Sqxup7";
+
+    // Klaviyo's modern "Client Subscribe Profiles" API. Unlike the legacy
+    // manage.kmail-lists.com endpoint, this one returns proper CORS headers
+    // for requests from any domain, so the browser can actually read the
+    // response and we can tell success from failure. Submitting a profile
+    // here with the list relationship below adds it to the "Baby Springs
+    // Waitlist" list, which is exactly what triggers the "Baby Springs
+    // Waitlist Welcome" flow in Klaviyo (that flow's trigger is: "Someone
+    // is added to list: Baby Springs Waitlist"). No extra API call is
+    // needed to send the welcome email — Klaviyo fires it automatically
+    // once this request succeeds. Note: if the list has double opt-in
+    // enabled, Klaviyo sends a confirmation email first and the flow only
+    // fires after the recipient confirms.
+    const KLAVIYO_SUBSCRIBE_URL = `https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_PUBLIC_API_KEY}`;
+
+    // Klaviyo versions this API by date. This revision was confirmed
+    // working as of July 2026; if Klaviyo ever retires it, bump this to
+    // a newer date (see Klaviyo's API changelog/docs).
+    const KLAVIYO_API_REVISION = "2026-04-15";
 
     const header = document.getElementById('header');
     const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 30);
@@ -675,26 +689,63 @@
         submitBtn.disabled = true;
         setLabel('Submitting...');
 
-        // Build the URL-encoded payload Klaviyo's list-subscribe endpoint expects.
-        const payload = new URLSearchParams();
-        payload.set('g', KLAVIYO_LIST_ID);           // <-- Klaviyo List ID (set the constant at the top of this script)
-        payload.set('email', email);
-        payload.set('$fields', '$name,$baby_age');    // tells Klaviyo which extra profile properties are included below
-        payload.set('$name', name);
-        payload.set('$baby_age', babyAge);
-        // To capture additional profile properties later, add the key to
-        // '$fields' above AND set it here, e.g.:
-        //   payload.set('$fields', '$name,$baby_age,$phone_number');
-        //   payload.set('$phone_number', phoneField.value.trim());
+        // Build the JSON:API payload Klaviyo's Client Subscribe Profiles API expects.
+        const payload = {
+          data: {
+            type: 'subscription',
+            attributes: {
+              profile: {
+                data: {
+                  type: 'profile',
+                  attributes: {
+                    email: email,
+                    // Custom profile properties go here. name/baby_age map
+                    // to this form's fields; add more properties by adding
+                    // more keys to this object, e.g. phone_number: phone.
+                    properties: {
+                      full_name: name,
+                      baby_age: babyAge
+                    }
+                  },
+                  // Opts the profile into email marketing consent. If the
+                  // list has double opt-in enabled, Klaviyo still requires
+                  // the recipient to confirm via email before they're
+                  // fully subscribed and the welcome flow fires.
+                  subscriptions: {
+                    email: { marketing: { consent: 'SUBSCRIBED' } }
+                  }
+                }
+              }
+            },
+            relationships: {
+              list: {
+                data: { type: 'list', id: KLAVIYO_LIST_ID } // <-- Klaviyo List ID (set the constant at the top of this script)
+              }
+            }
+          }
+        };
 
         try {
           const response = await fetch(KLAVIYO_SUBSCRIBE_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: payload.toString()
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'revision': KLAVIYO_API_REVISION
+            },
+            body: JSON.stringify(payload)
           });
 
-          if (!response.ok) throw new Error(`Klaviyo responded with status ${response.status}`);
+          if (!response.ok) {
+            // Klaviyo returns a JSON:API error body with a human-readable
+            // detail message; surface it in the console for debugging.
+            let detail = `Klaviyo responded with status ${response.status}`;
+            try {
+              const errJson = await response.json();
+              if (errJson?.errors?.[0]?.detail) detail = errJson.errors[0].detail;
+            } catch { /* success responses (202) have no body to parse */ }
+            throw new Error(detail);
+          }
 
           setLabel("You're on the waitlist!");
           form.reset();
