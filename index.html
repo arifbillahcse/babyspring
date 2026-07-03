@@ -162,6 +162,24 @@
     .cta-inline { text-align: center; margin-top: 3rem; }
     .cta-inline small { display: block; margin-top: 1rem; color: var(--muted); font-size: .9rem; letter-spacing: .05em; }
 
+    /* ---------- How It Works ---------- */
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 3.5rem; position: relative; }
+    .steps::before { content: ""; position: absolute; top: 34px; left: 12%; right: 12%; height: 1px; background: var(--line); z-index: 0; }
+    .step { position: relative; z-index: 1; text-align: center; padding: 0 .6rem; }
+    .step .num {
+      width: 68px; height: 68px; margin: 0 auto 1.3rem; border-radius: 50%;
+      background: var(--cream); border: 2px solid var(--taupe);
+      display: grid; place-items: center; font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; color: var(--sage-dark);
+      transition: background .5s var(--ease), border-color .5s var(--ease), transform .5s var(--ease), color .5s var(--ease);
+    }
+    .step:hover .num { background: var(--sage); border-color: var(--sage); color: #fff; transform: scale(1.08) rotate(-4deg); }
+    .step h3 { font-size: 1.25rem; margin-bottom: .5rem; line-height: 1.25; }
+    .step p { font-size: .92rem; color: var(--muted); max-width: 26ch; margin: 0 auto; }
+
+    /* ---------- Perks ---------- */
+    .perk-note { display: inline-flex; align-items: center; gap: .5rem; background: rgba(138,154,123,.14); color: var(--sage-dark); padding: .5rem 1rem; border-radius: 999px; font-size: .82rem; margin-top: 2rem; }
+    .perk-note svg { width: 15px; height: 15px; }
+
     /* ---------- Waitlist ---------- */
     .wl-grid { display: grid; grid-template-columns: .9fr 1fr; gap: 3rem; align-items: center; }
     .wl-media { border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 1/1.05;
@@ -246,14 +264,15 @@
     /* ---------- Responsive ---------- */
     @media (max-width: 900px) {
       .hero-grid, .wl-grid { grid-template-columns: 1fr; }
-      .cards { grid-template-columns: repeat(2, 1fr); }
+      .cards, .steps { grid-template-columns: repeat(2, 1fr); }
+      .steps::before { display: none; }
       .hero-media { order: -1; }
       .fc-1 { left: 10px; } .fc-2 { right: 10px; }
     }
     @media (max-width: 620px) {
       .nav-links .link, .nav-links .btn { display: none; }
       .menu-btn { display: block; }
-      .cards { grid-template-columns: 1fr; }
+      .cards, .steps { grid-template-columns: 1fr; }
       .logo-nav { height: 60px; }
       .hero { padding-top: 8.5rem; }
       .badges { gap: 1rem; }
@@ -371,8 +390,45 @@
     </div>
   </section>
 
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="sec-pad" id="how-it-works">
+    <div class="wrap center">
+      <span class="eyebrow reveal">The Baby Springs Experience</span>
+      <h2 class="sec-title reveal d1" style="margin-top:1.2rem;">How your first session works</h2>
+      <p class="sec-sub reveal d2">A calm, guided process from booking to bath time — designed so both of you feel at ease.</p>
+
+      <div class="steps">
+        <div class="step reveal">
+          <span class="num">1</span>
+          <h3>Reserve your spot</h3>
+          <p>Join the founding waitlist in under a minute and secure your family's place before spots fill.</p>
+        </div>
+        <div class="step reveal d1">
+          <span class="num">2</span>
+          <h3>Share a few details</h3>
+          <p>Tell us about your baby's age and comfort level so we can tailor every session to them.</p>
+        </div>
+        <div class="step reveal d2">
+          <span class="num">3</span>
+          <h3>Warm-water hydrotherapy</h3>
+          <p>A private, one-on-one session paced entirely around your baby, with gentle massage included.</p>
+        </div>
+        <div class="step reveal d3">
+          <span class="num">4</span>
+          <h3>Take-home guidance</h3>
+          <p>Leave with simple techniques to continue the benefits at home, before your next visit.</p>
+        </div>
+      </div>
+
+      <div class="cta-inline reveal">
+        <a class="btn" href="#waitlist">Secure Your Spot</a>
+        <small>Only 100 founding spots available.</small>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== WAITLIST ===== -->
-  <section class="sec-pad" id="founding-families">
+  <section class="band sec-pad" id="founding-families">
     <div class="wrap wl-grid">
       <div class="wl-media reveal">
         <img src="image01.jpg" alt="Serene infant wellness nursery setting" />
@@ -387,6 +443,43 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>Opening March 2027</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Limited to first 100 families.</li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOUNDING MEMBER PERKS ===== -->
+  <section class="sec-pad" id="perks">
+    <div class="wrap center">
+      <span class="eyebrow reveal">Founding Member Perks</span>
+      <h2 class="sec-title reveal d1" style="margin-top:1.2rem;">Join now, and it pays you back</h2>
+      <p class="sec-sub reveal d2">The first 100 families to join receive benefits that won't be offered again.</p>
+
+      <div class="cards">
+        <div class="card reveal">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+          <h3>Locked founding rate</h3>
+          <p>Your rate is locked in for life as a founding member — even as regular pricing increases.</p>
+        </div>
+        <div class="card reveal d1">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4M9 16l2 2 4-4"/></svg></span>
+          <h3>First choice of appointments</h3>
+          <p>Founding families get first access to the schedule, weeks before public booking opens.</p>
+        </div>
+        <div class="card reveal d2">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8M16.5 8a2.5 2.5 0 0 0 0-5C14 3 12 8 12 8"/></svg></span>
+          <h3>A welcome gift, on us</h3>
+          <p>Enjoy a complimentary add-on during your very first visit to Baby Springs.</p>
+        </div>
+        <div class="card reveal d3">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.2 10.7l7.5-4.3M8.2 13.3l7.5 4.3"/></svg></span>
+          <h3>Refer &amp; earn</h3>
+          <p>Invite friends and family and receive rewards toward your future sessions.</p>
+        </div>
+      </div>
+
+      <div class="cta-inline reveal">
+        <a class="btn" href="#waitlist">Secure Your Spot</a>
+        <span class="perk-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Perks disappear once the first 100 spots are claimed.</span>
       </div>
     </div>
   </section>
