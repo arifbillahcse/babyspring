@@ -167,13 +167,13 @@
     .wl-media { border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 1/1.05;
       background: linear-gradient(150deg, #e8ddc9 0%, #d3c1a4 50%, #b89a78 100%); }
     .wl-media img { width: 100%; height: 100%; object-fit: cover; color: transparent; font-size: 0; }
-    .wl-right { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
     .wl-copy h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); line-height: 1.12; margin-bottom: 1rem; }
     .wl-copy p { color: #6d675c; font-size: 1.02rem; margin-bottom: 1rem; }
     .facts { list-style: none; margin-top: 1.4rem; display: grid; gap: .8rem; }
     .facts li { display: flex; align-items: center; gap: .7rem; font-size: .96rem; color: var(--ink); }
     .facts svg { width: 18px; height: 18px; color: var(--sage); flex: none; }
 
+    .wl-form-wrap { max-width: 480px; margin: 3rem auto 0; text-align: left; }
     form.wl-form { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); }
     .field { position: relative; margin-bottom: 1rem; }
     .field input {
@@ -246,7 +246,6 @@
     /* ---------- Responsive ---------- */
     @media (max-width: 900px) {
       .hero-grid, .wl-grid { grid-template-columns: 1fr; }
-      .wl-right { grid-template-columns: 1fr; }
       .cards { grid-template-columns: repeat(2, 1fr); }
       .hero-media { order: -1; }
       .fc-1 { left: 10px; } .fc-2 { right: 10px; }
@@ -373,24 +372,32 @@
   </section>
 
   <!-- ===== WAITLIST ===== -->
-  <section class="sec-pad" id="waitlist">
+  <section class="sec-pad" id="founding-families">
     <div class="wrap wl-grid">
       <div class="wl-media reveal">
         <img src="image01.jpg" alt="Serene infant wellness nursery setting" />
       </div>
 
-      <div class="wl-right">
-        <div class="wl-copy reveal d1">
-          <h2>For a limited number of founding families</h2>
-          <p>Be among the first to experience a new standard in infant wellness.</p>
-          <p>Early access to bookings will be offered in limited phases, starting with waitlist members.</p>
-          <ul class="facts">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Bethesda, Maryland</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>Opening March 2027</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Limited to first 100 families.</li>
-          </ul>
-        </div>
+      <div class="wl-copy reveal d1">
+        <h2>For a limited number of founding families</h2>
+        <p>Be among the first to experience a new standard in infant wellness.</p>
+        <p>Early access to bookings will be offered in limited phases, starting with waitlist members.</p>
+        <ul class="facts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Bethesda, Maryland</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>Opening March 2027</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Limited to first 100 families.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
+  <!-- ===== WAITLIST FORM ===== -->
+  <section class="band sec-pad" id="waitlist">
+    <div class="wrap center">
+      <h2 class="sec-title reveal">Secure your spot</h2>
+      <p class="sec-sub reveal d1">Join the founding waitlist and be first in line when booking opens.</p>
+
+      <div class="wl-form-wrap">
         <form class="wl-form reveal d2" id="waitForm" novalidate>
           <div id="formInner">
             <div class="field"><input type="text" name="name" placeholder="Name" required /></div>
@@ -412,7 +419,7 @@
   </section>
 
   <!-- ===== FAQ ===== -->
-  <section class="band sec-pad" id="faq">
+  <section class="sec-pad" id="faq">
     <div class="wrap center">
       <h2 class="sec-title reveal">Frequently asked questions</h2>
       <p class="sec-sub reveal d1">Have another question? <a href="#waitlist" style="color:var(--sage-dark);text-decoration:underline;">We'd love to hear from you.</a></p>
