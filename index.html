@@ -27,7 +27,7 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; font-size: 18px; }
+    html { scroll-behavior: smooth; font-size: 18px; overflow-x: hidden; width: 100%; }
     body {
       font-family: 'Jost', sans-serif;
       background: var(--cream);
@@ -93,7 +93,7 @@
     .menu-btn { display: none; background: none; border: none; cursor: pointer; }
 
     /* ---------- Hero ---------- */
-    .hero { padding: 11.5rem 0 4rem; position: relative; }
+    .hero { padding: 11.5rem 0 4rem; position: relative; overflow: hidden; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 3.5rem; align-items: center; }
     .eyebrow {
       display: inline-block; background: rgba(138, 154, 123, .16); color: var(--sage-dark);
@@ -135,6 +135,7 @@
 
     /* ---------- Section shell ---------- */
     section { position: relative; }
+    #benefits { overflow: hidden; }
     .band { background: var(--cream-2); }
     .sec-pad { padding: 6rem 0; }
     .center { text-align: center; }
@@ -279,11 +280,12 @@
     }
     /* mobile menu */
     .mobile-menu {
-      position: fixed; inset: 0; z-index: 99; background: rgba(244,240,232,.97); backdrop-filter: blur(10px);
+      position: fixed; inset: 0; z-index: 101; background: rgba(244,240,232,.97); backdrop-filter: blur(10px);
       display: none; flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
     }
     .mobile-menu.open { display: flex; animation: pop .3s var(--ease); }
     .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; }
+    .mobile-menu a.btn { font-family: 'Jost', sans-serif; font-size: .78rem; }
     .mobile-menu .close { position: absolute; top: 1.6rem; right: 6%; background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--ink); }
   </style>
 </head>
