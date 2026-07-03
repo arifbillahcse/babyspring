@@ -204,6 +204,10 @@
     .field input:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(138,154,123,.15); }
     form.wl-form .btn { width: 100%; margin-top: .4rem; font-size: .74rem; letter-spacing: .12em; padding: 1rem 1.2rem; }
     .form-note { font-size: .86rem; color: var(--muted); margin-top: 1rem; text-align: center; }
+    .form-error { display: none; font-size: .86rem; color: #b3453a; margin-top: .9rem; text-align: center; }
+    .form-error.show { display: block; animation: pop .4s var(--ease); }
+    form.wl-form .btn:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+    form.wl-form .btn:disabled:hover { transform: none; }
     .success { display: none; text-align: center; padding: 1rem 0; }
     .success.show { display: block; animation: pop .5s var(--ease); }
     .success .check { width: 56px; height: 56px; margin: 0 auto 1rem; border-radius: 50%; background: var(--sage); display: grid; place-items: center; }
@@ -497,10 +501,12 @@
           <div id="formInner">
             <div class="field"><input type="text" name="name" placeholder="Name" required /></div>
             <div class="field"><input type="email" name="email" placeholder="Email Address" required /></div>
-            <div class="field"><input type="text" name="baby" placeholder="Baby's Age or Due Date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" /></div>
-            <button class="btn" type="submit">Secure Your Spot
+            <div class="field"><input type="text" name="baby" placeholder="Baby's Age or Due Date" /></div>
+            <button class="btn" type="submit" id="submitBtn">
+              <span class="btn-label">Secure Your Spot</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
+            <p class="form-error" id="formError" role="alert"></p>
             <p class="form-note">You'll receive early booking access, founding member benefits, and priority scheduling.</p>
           </div>
           <div class="success" id="success">
@@ -561,6 +567,23 @@
   </footer>
 
   <script>
+    // ============================================================
+    // KLAVIYO WAITLIST INTEGRATION — CONFIG
+    // ============================================================
+    // 1) Set your Klaviyo List ID here (Klaviyo → Lists & Segments →
+    //    "Baby Springs Waitlist" → the List ID shown in the list settings).
+    const KLAVIYO_LIST_ID = "REPLACE_WITH_LIST_ID";
+
+    // Klaviyo's list-subscribe endpoint. Every field posted here becomes
+    // a profile property in Klaviyo. Submitting to this endpoint with
+    // g=<list id> adds the profile to the "Baby Springs Waitlist" list,
+    // which is exactly what triggers the "Baby Springs Waitlist Welcome"
+    // flow in Klaviyo (that flow's trigger is: "Someone is added to list:
+    // Baby Springs Waitlist"). No extra API call is needed to send the
+    // welcome email — Klaviyo fires it automatically once this request
+    // succeeds.
+    const KLAVIYO_SUBSCRIBE_URL = "https://manage.kmail-lists.com/ajax/subscriptions/subscribe";
+
     const header = document.getElementById('header');
     const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 30);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -592,13 +615,106 @@
     document.getElementById('closeMenu').addEventListener('click', () => mm.classList.remove('open'));
     mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
 
-    document.getElementById('waitForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const f = e.target;
-      if (!f.name.value.trim() || !f.email.value.trim()) { f.reportValidity?.(); return; }
-      document.getElementById('formInner').style.display = 'none';
-      document.getElementById('success').classList.add('show');
-    });
+    // ============================================================
+    // KLAVIYO WAITLIST INTEGRATION — SUBMIT HANDLER
+    // ============================================================
+    (() => {
+      const form = document.getElementById('waitForm');
+      const formInner = document.getElementById('formInner');
+      const successEl = document.getElementById('success');
+      const submitBtn = document.getElementById('submitBtn');
+      const btnLabel = submitBtn.querySelector('.btn-label');
+      const errorEl = document.getElementById('formError');
+
+      const DEFAULT_LABEL = btnLabel.textContent;
+      const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      let isSubmitting = false;
+
+      // Looks up a field by trying several likely name/id variants, so this
+      // script keeps working even if the HTML field names change later
+      // (requirement: auto-map existing fields to Klaviyo properties).
+      function findField(candidates) {
+        for (const key of candidates) {
+          const el = form.querySelector(`[name="${key}"]`) || form.querySelector(`#${key}`);
+          if (el) return el;
+        }
+        return null;
+      }
+
+      function setLabel(text) { btnLabel.textContent = text; }
+
+      function showError(message) {
+        errorEl.textContent = message;
+        errorEl.classList.add('show');
+      }
+
+      function clearError() {
+        errorEl.textContent = '';
+        errorEl.classList.remove('show');
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (isSubmitting) return; // guard against duplicate submissions
+        clearError();
+
+        const nameField = findField(['name', 'full_name', 'fullname', 'customer_name']);
+        const emailField = findField(['email', 'email_address']);
+        const babyField = findField(['baby', 'baby_age', 'due_date', 'dob']);
+
+        const name = nameField ? nameField.value.trim() : '';
+        const email = emailField ? emailField.value.trim() : '';
+        const babyAge = babyField ? babyField.value.trim() : '';
+
+        // ---- Validation ----
+        if (!name) { showError('Please enter your name.'); nameField?.focus(); return; }
+        if (!email) { showError('Please enter your email address.'); emailField?.focus(); return; }
+        if (!EMAIL_RE.test(email)) { showError('Please enter a valid email address.'); emailField?.focus(); return; }
+
+        isSubmitting = true;
+        submitBtn.disabled = true;
+        setLabel('Submitting...');
+
+        // Build the URL-encoded payload Klaviyo's list-subscribe endpoint expects.
+        const payload = new URLSearchParams();
+        payload.set('g', KLAVIYO_LIST_ID);           // <-- Klaviyo List ID (set the constant at the top of this script)
+        payload.set('email', email);
+        payload.set('$fields', '$name,$baby_age');    // tells Klaviyo which extra profile properties are included below
+        payload.set('$name', name);
+        payload.set('$baby_age', babyAge);
+        // To capture additional profile properties later, add the key to
+        // '$fields' above AND set it here, e.g.:
+        //   payload.set('$fields', '$name,$baby_age,$phone_number');
+        //   payload.set('$phone_number', phoneField.value.trim());
+
+        try {
+          const response = await fetch(KLAVIYO_SUBSCRIBE_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: payload.toString()
+          });
+
+          if (!response.ok) throw new Error(`Klaviyo responded with status ${response.status}`);
+
+          setLabel("You're on the waitlist!");
+          form.reset();
+          formInner.style.display = 'none';
+          successEl.classList.add('show');
+        } catch (err) {
+          console.error('Klaviyo subscribe failed:', err);
+          setLabel('Please try again.');
+          showError("Something went wrong — please try again in a moment.");
+        } finally {
+          isSubmitting = false;
+          submitBtn.disabled = false;
+          // Restore the default label after a pause, unless the form already
+          // moved on to the success panel (formInner is hidden by then).
+          setTimeout(() => {
+            if (formInner.style.display !== 'none') setLabel(DEFAULT_LABEL);
+          }, 2500);
+        }
+      });
+    })();
   </script>
 </body>
 </html>
