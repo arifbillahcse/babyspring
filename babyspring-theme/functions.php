@@ -98,28 +98,70 @@ function babysprings_waitlist_form_css() {
 	}
 	.bs-wl-btn {
 		width: 100%;
+		height: 3.5rem;
 		margin-top: .4em;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		gap: .6em;
-		padding: 1em 1.2em;
+		padding: 0 1.2em;
 		border: 0;
-		border-radius: 0.125em;
-		background: #74866E;
-		color: #fafafa;
-		font-family: inherit;
-		font-size: .8em;
+		border-radius: 0;
+		background-color: #74866E;
+		color: #FAFAFA;
+		font-family: Arial, sans-serif;
+		font-size: 1em;
 		font-weight: 400;
-		letter-spacing: .12em;
+		letter-spacing: 0;
 		text-transform: uppercase;
 		cursor: pointer;
-		transition: background-color .2s ease;
+		transition: background-color .25s ease, box-shadow .25s ease;
+		animation: bs-wl-btn-pulse 2.2s ease-in-out infinite;
 	}
-	.bs-wl-btn:hover { background: #5f7e6e; }
-	.bs-wl-btn:disabled { opacity: .7; cursor: not-allowed; }
+	.bs-wl-btn:hover,
+	.bs-wl-btn:focus-visible {
+		background-color: #607E6E;
+		animation-play-state: paused;
+	}
+	.bs-wl-btn:disabled {
+		opacity: .7;
+		cursor: not-allowed;
+		animation: none;
+	}
+	@keyframes bs-wl-btn-pulse {
+		0%, 100% { box-shadow: 0 0 0 0 rgba(116,134,110,.55); }
+		50% { box-shadow: 0 0 0 .55em rgba(116,134,110,0); }
+	}
 	.bs-wl-error { display: none; font-size: .85em; color: #b3453a; margin-top: .9em; text-align: center; }
 	.bs-wl-error.show { display: block; }
+	.bs-wl-urgency {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: .55em;
+		margin-top: 1em;
+		font-family: Arial, sans-serif;
+		font-size: .82em;
+		color: #4f5a4d;
+		text-align: center;
+	}
+	.bs-wl-dot {
+		width: .55em;
+		height: .55em;
+		border-radius: 50%;
+		background: #3fae4c;
+		flex: none;
+		box-shadow: 0 0 0 0 rgba(63,174,76,.6);
+		animation: bs-wl-dot-pulse 1.8s ease-out infinite;
+	}
+	@keyframes bs-wl-dot-pulse {
+		0% { box-shadow: 0 0 0 0 rgba(63,174,76,.55); }
+		70% { box-shadow: 0 0 0 .5em rgba(63,174,76,0); }
+		100% { box-shadow: 0 0 0 0 rgba(63,174,76,0); }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.bs-wl-btn, .bs-wl-dot { animation: none; }
+	}
 	';
 }
 
