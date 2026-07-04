@@ -403,27 +403,86 @@
 										</ul>
 									</div>
 									<div>
-										<form enctype="multipart/form-data" id="form02" method="post" action="#" class="form-component instance-2" novalidate>
-											<div class="inner">
-												<div class="field" data-type="text">
-													<input type="text" name="name" id="form02-name" placeholder="Name" maxlength="256" required />
-												</div>
-												<div class="field" data-type="email">
-													<input type="email" name="email" id="form02-email" placeholder="Email Address" maxlength="128" required />
-												</div>
-												<div class="field" data-type="date">
-													<div class="date" data-placeholder="Baby&#039;s Age or Due Date" data-format="long" data-value="" tabindex="-1">
-														<input type="date" name="baby_age_or_due_date" id="form02-baby_age_or_due_date" required tabindex="-1" />
-														<button tabindex="-1" type="button" class="select"><svg aria-labelledby="form02-baby_age_or_due_date-select-icon-title"><title id="form02-baby_age_or_due_date-select-icon-title">Date Picker</title><use xlink:href="assets/icons.svg#calendar"></use></svg></button>
-													</div>
-												</div>
-												<div class="actions">
-													<button type="submit">Secure Your Spot</button>
-												</div>
+										<form class="bs-wl-form" id="form02" novalidate>
+											<!-- qweoqwupeoiqwuewqe --><!-- Baby Springs — Waitlist Form (ported from the working static-site version) -->
+											<style>
+											.bs-wl-form {
+											font-size: 15px;
+											font-family: Arial, sans-serif;
+											background: #f7f5f2;
+											border: 1px solid #d8d3cd;
+											border-radius: 0.375em;
+											padding: 2em;
+											box-shadow: 0 1.25em 3em -1.25em rgba(90,80,60,.35);
+											}
+											.bs-wl-field { position: relative; margin-bottom: 1em; }
+											.bs-wl-field input {
+											width: 100%;
+											padding: 1.05em 1.1em;
+											border: 1px solid #d8d3cd;
+											border-radius: 0.5em;
+											background: #fff;
+											font-family: inherit;
+											font-size: 1em;
+											color: #2f2f2f;
+											transition: border-color .3s, box-shadow .3s;
+											}
+											.bs-wl-field input::placeholder { color: #b3ad9f; }
+											.bs-wl-field input:focus {
+											outline: none;
+											border-color: #74866E;
+											box-shadow: 0 0 0 0.1875em rgba(116,134,110,.18);
+											}
+											.bs-wl-btn {
+											width: 100%;
+											margin-top: .4em;
+											display: inline-flex;
+											align-items: center;
+											justify-content: center;
+											gap: .6em;
+											padding: 1em 1.2em;
+											border: 0;
+											border-radius: 0.125em;
+											background: #74866E;
+											color: #fafafa;
+											font-family: inherit;
+											font-size: .8em;
+											font-weight: 400;
+											letter-spacing: .12em;
+											text-transform: uppercase;
+											cursor: pointer;
+											transition: background-color .2s ease;
+											}
+											.bs-wl-btn:hover { background: #5f7e6e; }
+											.bs-wl-btn:disabled { opacity: .7; cursor: not-allowed; }
+											.bs-wl-error { display: none; font-size: .85em; color: #b3453a; margin-top: .9em; text-align: center; }
+											.bs-wl-error.show { display: block; }
+											.bs-wl-success { display: none; text-align: center; padding: 1em 0; }
+											.bs-wl-success.show { display: block; }
+											.bs-wl-success .bs-wl-check {
+											width: 3.2em; height: 3.2em; margin: 0 auto .8em;
+											border-radius: 50%; background: #74866E;
+											display: flex; align-items: center; justify-content: center;
+											}
+											.bs-wl-success .bs-wl-check svg { width: 1.6em; height: 1.6em; color: #fff; }
+											.bs-wl-success h3 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 1.6em; color: #2f2f2f; margin-bottom: .4em; }
+											.bs-wl-note { font-size: .86em; color: #6C6F73; margin-top: 1em; text-align: center; }
+											</style>
+											<div class="bs-wl-inner">
+												<div class="bs-wl-field"><input type="text" name="name" id="form02-name" placeholder="Name" required /></div>
+												<div class="bs-wl-field"><input type="email" name="email" id="form02-email" placeholder="Email Address" required /></div>
+												<div class="bs-wl-field"><input type="text" name="baby_age_or_due_date" id="form02-baby_age_or_due_date" placeholder="Baby&#039;s Age or Due Date" /></div>
+												<button class="bs-wl-btn" type="submit" id="form02-submitBtn">
+													<span class="bs-wl-btn-label">Secure Your Spot</span>
+													<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+												</button>
+												<p class="bs-wl-error" id="form02-error" role="alert"></p>
 											</div>
-											<input type="hidden" name="id" value="form02" />
-											<input type="hidden" name="g" id="form02-g" value="Um8kBy" />
-											<input type="hidden" name="fields" id="form02-fields" value="$first_name,baby_age_or_due_date" />
+											<div class="bs-wl-success" id="form02-success">
+												<div class="bs-wl-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></div>
+												<h3>You&#039;re on the list.</h3>
+												<p class="bs-wl-note">Welcome, founding family. We&#039;ll be in touch with your early access details soon.</p>
+											</div>
 										</form>
 										<p id="text22" class="text-component instance-22">You&#39;ll receive early booking access, founding member benefits, and priority scheduling.</p>
 									</div>
@@ -439,27 +498,22 @@
 										</div>
 									</div>
 									<div>
-										<form enctype="multipart/form-data" id="form03" method="post" action="#" class="form-component instance-3" novalidate>
-											<div class="inner">
-												<div class="field" data-type="text">
-													<input type="text" name="name" id="form03-name" placeholder="Name" maxlength="256" required />
-												</div>
-												<div class="field" data-type="email">
-													<input type="email" name="email" id="form03-email" placeholder="Email Address" maxlength="128" required />
-												</div>
-												<div class="field" data-type="date">
-													<div class="date" data-placeholder="Baby&#039;s Age or Due Date" data-format="long" data-value="" tabindex="-1">
-														<input type="date" name="baby_age_or_due_date" id="form03-baby_age_or_due_date" required tabindex="-1" />
-														<button tabindex="-1" type="button" class="select"><svg aria-labelledby="form03-baby_age_or_due_date-select-icon-title"><title id="form03-baby_age_or_due_date-select-icon-title">Date Picker</title><use xlink:href="assets/icons.svg#calendar"></use></svg></button>
-													</div>
-												</div>
-												<div class="actions">
-													<button type="submit">Secure Your Spot</button>
-												</div>
+										<form class="bs-wl-form" id="form03" novalidate>
+											<div class="bs-wl-inner">
+												<div class="bs-wl-field"><input type="text" name="name" id="form03-name" placeholder="Name" required /></div>
+												<div class="bs-wl-field"><input type="email" name="email" id="form03-email" placeholder="Email Address" required /></div>
+												<div class="bs-wl-field"><input type="text" name="baby_age_or_due_date" id="form03-baby_age_or_due_date" placeholder="Baby&#039;s Age or Due Date" /></div>
+												<button class="bs-wl-btn" type="submit" id="form03-submitBtn">
+													<span class="bs-wl-btn-label">Secure Your Spot</span>
+													<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+												</button>
+												<p class="bs-wl-error" id="form03-error" role="alert"></p>
 											</div>
-											<input type="hidden" name="id" value="form03" />
-											<input type="hidden" name="g" id="form03-g" value="Um8kBy" />
-											<input type="hidden" name="fields" id="form03-fields" value="$first_name,baby_age_or_due_date" />
+											<div class="bs-wl-success" id="form03-success">
+												<div class="bs-wl-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></div>
+												<h3>You&#039;re on the list.</h3>
+												<p class="bs-wl-note">Welcome, founding family. We&#039;ll be in touch with your early access details soon.</p>
+											</div>
 										</form>
 										<p id="text29" class="text-component instance-29">You&#39;ll receive early booking access, founding member benefits, and priority scheduling.</p>
 									</div>
@@ -781,79 +835,38 @@
 		var KLAVIYO_API_REVISION = '2026-04-15';
 		var KLAVIYO_SUBSCRIBE_URL = 'https://a.klaviyo.com/client/subscriptions/?company_id=' + encodeURIComponent(KLAVIYO_PUBLIC_API_KEY);
 		var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
-		'July', 'August', 'September', 'October', 'November', 'December'];
-
-		// Format a YYYY-MM-DD value as "Month D, YYYY" without going through
-		// Date() (which parses the string as UTC and can shift the day).
-		function formatLongDate(value) {
-		var parts = value.split('-');
-		if (parts.length !== 3) return value;
-		return MONTHS[parseInt(parts[1], 10) - 1] + ' ' + parseInt(parts[2], 10) + ', ' + parts[0];
-		}
-
-		// Restore Carrd's date-widget behaviour that this export left out.
-		function setupDateField(dateWrap, input) {
-		if (!dateWrap || !input) return;
-
-		function syncDisplay() {
-		dateWrap.setAttribute('data-value', input.value ? formatLongDate(input.value) : '');
-		}
-		input.addEventListener('change', syncDisplay);
-		input.addEventListener('input', syncDisplay);
-
-		// The transparent input already opens the picker when clicked directly.
-		// Only force it open when the click landed on the calendar icon/button.
-		dateWrap.addEventListener('click', function (e) {
-		if (e.target === input) return;
-		if (typeof input.showPicker === 'function') {
-		try { input.showPicker(); return; } catch (err) { /* fall through */ }
-		}
-		input.focus();
-		});
-
-		// Keep the visible value in sync if the form is reset after submit.
-		if (input.form) {
-		input.form.addEventListener('reset', function () {
-		setTimeout(syncDisplay, 0);
-		});
-		}
-		}
 
 		function setupWaitlistForm(form) {
 		if (!form) return;
 
-		var nameField = form.querySelector('[name="name"]');
-		var emailField = form.querySelector('[name="email"]');
-		var babyField = form.querySelector('[name="baby_age_or_due_date"]');
-		var submitBtn = form.querySelector('button[type="submit"]');
-		var defaultLabel = submitBtn ? submitBtn.textContent : '';
+		var formInner = form.querySelector('.bs-wl-inner');
+		var successEl = form.querySelector('.bs-wl-success');
+		var errorEl = form.querySelector('.bs-wl-error');
+		var submitBtn = form.querySelector('.bs-wl-btn');
+		var btnLabel = submitBtn.querySelector('.bs-wl-btn-label');
+		var defaultLabel = btnLabel.textContent;
 		var isSubmitting = false;
 
-		// Carrd's date widget shows its value through CSS (::before content:
-		// attr(data-value)) and relies on JS to copy the picked date there.
-		// That JS is missing from this export, so wire it up: sync the chosen
-		// date into data-value, and let the calendar icon open the picker.
-		setupDateField(form.querySelector('.field[data-type="date"] .date'), babyField);
-
-		var errorEl = document.createElement('p');
-		errorEl.className = 'klaviyo-form-error';
-		errorEl.setAttribute('role', 'alert');
-		errorEl.style.cssText = 'color:#b3261e;font-size:0.85em;line-height:1.4;margin:0.6em 0 0;display:none;';
-		var actions = form.querySelector('.actions');
-		if (actions) {
-		actions.parentNode.insertBefore(errorEl, actions);
-		} else {
-		form.appendChild(errorEl);
+		// Looks up a field by trying several likely name/id variants, so this
+		// script keeps working even if the HTML field names change later.
+		function findField(candidates) {
+		for (var i = 0; i < candidates.length; i++) {
+		var el = form.querySelector('[name="' + candidates[i] + '"]') || form.querySelector('#' + candidates[i]);
+		if (el) return el;
+		}
+		return null;
 		}
 
-		function showError(msg) {
-		errorEl.textContent = msg;
-		errorEl.style.display = 'block';
+		function setLabel(text) {
+		btnLabel.textContent = text;
+		}
+		function showError(message) {
+		errorEl.textContent = message;
+		errorEl.classList.add('show');
 		}
 		function clearError() {
 		errorEl.textContent = '';
-		errorEl.style.display = 'none';
+		errorEl.classList.remove('show');
 		}
 
 		form.addEventListener('submit', function (e) {
@@ -861,9 +874,13 @@
 		if (isSubmitting) return;
 		clearError();
 
+		var nameField = findField(['name', 'full_name', 'fullname', 'customer_name']);
+		var emailField = findField(['email', 'email_address']);
+		var babyField = findField(['baby_age_or_due_date', 'baby', 'baby_age', 'due_date', 'dob']);
+
 		var name = nameField ? nameField.value.trim() : '';
 		var email = emailField ? emailField.value.trim() : '';
-		var babyDate = babyField ? babyField.value.trim() : '';
+		var babyAge = babyField ? babyField.value.trim() : '';
 
 		if (!name) {
 		showError('Please enter your name.');
@@ -880,21 +897,10 @@
 		if (emailField) emailField.focus();
 		return;
 		}
-		if (!babyDate) {
-		showError("Please enter your baby's age or due date.");
-		if (babyField && typeof babyField.showPicker === 'function') {
-		try { babyField.showPicker(); } catch (err) { babyField.focus(); }
-		} else if (babyField) {
-		babyField.focus();
-		}
-		return;
-		}
 
 		isSubmitting = true;
-		if (submitBtn) {
 		submitBtn.disabled = true;
-		submitBtn.textContent = 'Submitting...';
-		}
+		setLabel('Submitting...');
 
 		var payload = {
 		data: {
@@ -907,7 +913,7 @@
 		email: email,
 		properties: {
 		full_name: name,
-		baby_age_or_due_date: babyDate
+		baby_age: babyAge
 		}
 		},
 		subscriptions: {
@@ -942,22 +948,22 @@
 		});
 		}
 
+		setLabel("You're on the waitlist!");
 		form.reset();
-		window.location.hash = '#thank-you';
+		formInner.style.display = 'none';
+		successEl.classList.add('show');
 		})
 		.catch(function (err) {
 		console.error('Klaviyo subscribe failed:', err);
+		setLabel('Please try again.');
 		showError('Something went wrong — please try again in a moment.');
-		if (submitBtn) submitBtn.textContent = 'Please try again.';
 		})
 		.finally(function () {
 		isSubmitting = false;
-		if (submitBtn) {
 		submitBtn.disabled = false;
 		setTimeout(function () {
-		submitBtn.textContent = defaultLabel;
+		if (formInner.style.display !== 'none') setLabel(defaultLabel);
 		}, 2500);
-		}
 		});
 		});
 		}
