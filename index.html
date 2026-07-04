@@ -403,7 +403,7 @@
 										</ul>
 									</div>
 									<div>
-										<form enctype="multipart/form-data" id="form02" method="post" action="#" class="form-component instance-2">
+										<form enctype="multipart/form-data" id="form02" method="post" action="#" class="form-component instance-2" novalidate>
 											<div class="inner">
 												<div class="field" data-type="text">
 													<input type="text" name="name" id="form02-name" placeholder="Name" maxlength="256" required />
@@ -439,7 +439,7 @@
 										</div>
 									</div>
 									<div>
-										<form enctype="multipart/form-data" id="form03" method="post" action="#" class="form-component instance-3">
+										<form enctype="multipart/form-data" id="form03" method="post" action="#" class="form-component instance-3" novalidate>
 											<div class="inner">
 												<div class="field" data-type="text">
 													<input type="text" name="name" id="form03-name" placeholder="Name" maxlength="256" required />
@@ -878,6 +878,15 @@
 		if (!EMAIL_RE.test(email)) {
 		showError('Please enter a valid email address.');
 		if (emailField) emailField.focus();
+		return;
+		}
+		if (!babyDate) {
+		showError("Please enter your baby's age or due date.");
+		if (babyField && typeof babyField.showPicker === 'function') {
+		try { babyField.showPicker(); } catch (err) { babyField.focus(); }
+		} else if (babyField) {
+		babyField.focus();
+		}
 		return;
 		}
 
