@@ -457,16 +457,6 @@
 											.bs-wl-btn:disabled { opacity: .7; cursor: not-allowed; }
 											.bs-wl-error { display: none; font-size: .85em; color: #b3453a; margin-top: .9em; text-align: center; }
 											.bs-wl-error.show { display: block; }
-											.bs-wl-success { display: none; text-align: center; padding: 1em 0; }
-											.bs-wl-success.show { display: block; }
-											.bs-wl-success .bs-wl-check {
-											width: 3.2em; height: 3.2em; margin: 0 auto .8em;
-											border-radius: 50%; background: #74866E;
-											display: flex; align-items: center; justify-content: center;
-											}
-											.bs-wl-success .bs-wl-check svg { width: 1.6em; height: 1.6em; color: #fff; }
-											.bs-wl-success h3 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 1.6em; color: #2f2f2f; margin-bottom: .4em; }
-											.bs-wl-note { font-size: .86em; color: #6C6F73; margin-top: 1em; text-align: center; }
 											</style>
 											<div class="bs-wl-inner">
 												<div class="bs-wl-field"><input type="text" name="name" id="form02-name" placeholder="Name" required /></div>
@@ -477,11 +467,6 @@
 													<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
 												</button>
 												<p class="bs-wl-error" id="form02-error" role="alert"></p>
-											</div>
-											<div class="bs-wl-success" id="form02-success">
-												<div class="bs-wl-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></div>
-												<h3>You&#039;re on the list.</h3>
-												<p class="bs-wl-note">Welcome, founding family. We&#039;ll be in touch with your early access details soon.</p>
 											</div>
 										</form>
 										<p id="text22" class="text-component instance-22">You&#39;ll receive early booking access, founding member benefits, and priority scheduling.</p>
@@ -508,11 +493,6 @@
 													<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
 												</button>
 												<p class="bs-wl-error" id="form03-error" role="alert"></p>
-											</div>
-											<div class="bs-wl-success" id="form03-success">
-												<div class="bs-wl-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg></div>
-												<h3>You&#039;re on the list.</h3>
-												<p class="bs-wl-note">Welcome, founding family. We&#039;ll be in touch with your early access details soon.</p>
 											</div>
 										</form>
 										<p id="text29" class="text-component instance-29">You&#39;ll receive early booking access, founding member benefits, and priority scheduling.</p>
@@ -769,9 +749,38 @@
 							<div class="wrapper">
 								<div class="inner">
 									<div>
+										<!-- qweoqwupeoiqwuewqe --><!-- Baby Springs — Thank You Page (Carrd-safe) -->
+										<style>
+										.bs-ty-logo { display: inline-block; margin-bottom: 1.5em; text-decoration: none; }
+										.bs-ty-logo img { height: 3.6em; width: auto; }
+										.bs-ty-chips { list-style: none; margin: 1.6em 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .6em; }
+										.bs-ty-chips li a {
+										display: inline-flex; align-items: center; gap: .5em;
+										padding: .55em .9em; border: 1px solid #d8d3cd; border-radius: 2em;
+										background: #f7f5f2; font-size: .82em; color: #2f2f2f;
+										text-decoration: none;
+										}
+										.bs-ty-chips li svg { width: 1.1em; height: 1.1em; fill: #74866E; flex: none; }
+										.bs-ty-btn {
+										display: inline-flex; align-items: center; gap: .6em;
+										margin-top: 2em; padding: .95em 1.8em;
+										background: #74866E; color: #fafafa; border-radius: .125em;
+										font-size: .8em; font-weight: 400; letter-spacing: .12em; text-transform: uppercase;
+										text-decoration: none;
+										transition: background-color .2s ease;
+										}
+										.bs-ty-btn:hover { background: #5f7e6e; }
+										</style>
+										<a href="#" class="bs-ty-logo"><img src="assets/images/image03.png" alt="Baby Springs" /></a>
 										<h1 id="text12" class="text-component instance-12">Thank you!</h1>
 										<hr id="divider02" class="divider-component instance-2">
-										<p id="text04" class="text-component instance-4">Your waitlist registration has been received. We&#39;ll be in touch soon.</p>
+										<p id="text04" class="text-component instance-4">Your waitlist registration has been received — you&#39;re officially one of our founding families. We&#39;ll be in touch soon with priority booking access, founding member benefits, and updates as our March 2027 opening approaches.</p>
+										<ul class="bs-ty-chips">
+											<li><a role="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg><span>Registration confirmed</span></a></li>
+											<li><a role="button"><svg viewBox="0 0 40 40"><use xlink:href="assets/icons.svg#lock"></use></svg><span>Founding member benefits</span></a></li>
+											<li><a role="button"><svg viewBox="0 0 40 40"><use xlink:href="assets/icons.svg#calendar"></use></svg><span>Opening March 2027</span></a></li>
+										</ul>
+										<a href="#" class="bs-ty-btn">Back to homepage</a>
 									</div>
 									<div>
 										<div id="image04" class="image-component instance-4" data-position="center">
@@ -839,8 +848,6 @@
 		function setupWaitlistForm(form) {
 		if (!form) return;
 
-		var formInner = form.querySelector('.bs-wl-inner');
-		var successEl = form.querySelector('.bs-wl-success');
 		var errorEl = form.querySelector('.bs-wl-error');
 		var submitBtn = form.querySelector('.bs-wl-btn');
 		var btnLabel = submitBtn.querySelector('.bs-wl-btn-label');
@@ -948,10 +955,8 @@
 		});
 		}
 
-		setLabel("You're on the waitlist!");
 		form.reset();
-		formInner.style.display = 'none';
-		successEl.classList.add('show');
+		window.location.hash = '#thank-you';
 		})
 		.catch(function (err) {
 		console.error('Klaviyo subscribe failed:', err);
@@ -962,7 +967,7 @@
 		isSubmitting = false;
 		submitBtn.disabled = false;
 		setTimeout(function () {
-		if (formInner.style.display !== 'none') setLabel(defaultLabel);
+		setLabel(defaultLabel);
 		}, 2500);
 		});
 		});
