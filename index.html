@@ -781,6 +781,44 @@
 		var KLAVIYO_API_REVISION = '2026-04-15';
 		var KLAVIYO_SUBSCRIBE_URL = 'https://a.klaviyo.com/client/subscriptions/?company_id=' + encodeURIComponent(KLAVIYO_PUBLIC_API_KEY);
 		var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+		'July', 'August', 'September', 'October', 'November', 'December'];
+
+		// Format a YYYY-MM-DD value as "Month D, YYYY" without going through
+		// Date() (which parses the string as UTC and can shift the day).
+		function formatLongDate(value) {
+		var parts = value.split('-');
+		if (parts.length !== 3) return value;
+		return MONTHS[parseInt(parts[1], 10) - 1] + ' ' + parseInt(parts[2], 10) + ', ' + parts[0];
+		}
+
+		// Restore Carrd's date-widget behaviour that this export left out.
+		function setupDateField(dateWrap, input) {
+		if (!dateWrap || !input) return;
+
+		function syncDisplay() {
+		dateWrap.setAttribute('data-value', input.value ? formatLongDate(input.value) : '');
+		}
+		input.addEventListener('change', syncDisplay);
+		input.addEventListener('input', syncDisplay);
+
+		// The transparent input already opens the picker when clicked directly.
+		// Only force it open when the click landed on the calendar icon/button.
+		dateWrap.addEventListener('click', function (e) {
+		if (e.target === input) return;
+		if (typeof input.showPicker === 'function') {
+		try { input.showPicker(); return; } catch (err) { /* fall through */ }
+		}
+		input.focus();
+		});
+
+		// Keep the visible value in sync if the form is reset after submit.
+		if (input.form) {
+		input.form.addEventListener('reset', function () {
+		setTimeout(syncDisplay, 0);
+		});
+		}
+		}
 
 		function setupWaitlistForm(form) {
 		if (!form) return;
@@ -791,6 +829,12 @@
 		var submitBtn = form.querySelector('button[type="submit"]');
 		var defaultLabel = submitBtn ? submitBtn.textContent : '';
 		var isSubmitting = false;
+
+		// Carrd's date widget shows its value through CSS (::before content:
+		// attr(data-value)) and relies on JS to copy the picked date there.
+		// That JS is missing from this export, so wire it up: sync the chosen
+		// date into data-value, and let the calendar icon open the picker.
+		setupDateField(form.querySelector('.field[data-type="date"] .date'), babyField);
 
 		var errorEl = document.createElement('p');
 		errorEl.className = 'klaviyo-form-error';
