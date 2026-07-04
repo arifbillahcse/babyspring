@@ -18,30 +18,8 @@
 		y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 		})(window, document, "clarity", "script", "wqiiqhjcs1");
 		</script><!-- mnbnbxmbzxmncbzxc -->
-		<!-- qweoqwupeoiqwuewqe --><!-- Google Tag Manager -->
-		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-		})(window,document,'script','dataLayer','GTM-PTFVF8CM');</script>
-		<!-- End Google Tag Manager --><!-- mnbnbxmbzxmncbzxc -->
-		<!-- qweoqwupeoiqwuewqe --><!-- Google Tag Manager -->
-		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-		})(window,document,'script','dataLayer','GTM-PTFVF8CM');</script>
-		<!-- End Google Tag Manager --><!-- mnbnbxmbzxmncbzxc -->
 	</head>
 	<body class="is-loading">
-		<!-- qweoqwupeoiqwuewqe --><!-- Google Tag Manager (noscript) -->
-		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PTFVF8CM"
-		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-		<!-- End Google Tag Manager (noscript) --><!-- mnbnbxmbzxmncbzxc -->
-		<!-- qweoqwupeoiqwuewqe --><!-- Google Tag Manager (noscript) -->
-		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PTFVF8CM"
-		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-		<!-- End Google Tag Manager (noscript) --><!-- mnbnbxmbzxmncbzxc -->
 		<div class="site-wrapper">
 			<div class="site-main" role="main">
 				<div class="inner">
@@ -793,20 +771,149 @@
 			</div>
 		</div>
 		<script src="assets/main.js"></script>
-		<!-- qweoqwupeoiqwuewqe --><script>
-		document.addEventListener('DOMContentLoaded', function() {
-		const form = document.getElementById('form02');
-		if (form) {
-		form.addEventListener('submit', function() {
-		window.dataLayer = window.dataLayer || [];
-		window.dataLayer.push({
-		event: 'submit_form',
-		form_id: 'form02',
-		form_name: 'Secure Your Spot'
+		<!-- qweoqwupeoiqwuewqe --><!-- Baby Springs — Klaviyo waitlist subscribe (Client Subscribe Profiles API) -->
+		<script>
+		(function () {
+		'use strict';
+
+		var KLAVIYO_LIST_ID = 'Um8kBy';
+		var KLAVIYO_PUBLIC_API_KEY = 'Sqxup7';
+		var KLAVIYO_API_REVISION = '2026-04-15';
+		var KLAVIYO_SUBSCRIBE_URL = 'https://a.klaviyo.com/client/subscriptions/?company_id=' + encodeURIComponent(KLAVIYO_PUBLIC_API_KEY);
+		var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+		function setupWaitlistForm(form) {
+		if (!form) return;
+
+		var nameField = form.querySelector('[name="name"]');
+		var emailField = form.querySelector('[name="email"]');
+		var babyField = form.querySelector('[name="baby_age_or_due_date"]');
+		var submitBtn = form.querySelector('button[type="submit"]');
+		var defaultLabel = submitBtn ? submitBtn.textContent : '';
+		var isSubmitting = false;
+
+		var errorEl = document.createElement('p');
+		errorEl.className = 'klaviyo-form-error';
+		errorEl.setAttribute('role', 'alert');
+		errorEl.style.cssText = 'color:#b3261e;font-size:0.85em;line-height:1.4;margin:0.6em 0 0;display:none;';
+		var actions = form.querySelector('.actions');
+		if (actions) {
+		actions.parentNode.insertBefore(errorEl, actions);
+		} else {
+		form.appendChild(errorEl);
+		}
+
+		function showError(msg) {
+		errorEl.textContent = msg;
+		errorEl.style.display = 'block';
+		}
+		function clearError() {
+		errorEl.textContent = '';
+		errorEl.style.display = 'none';
+		}
+
+		form.addEventListener('submit', function (e) {
+		e.preventDefault();
+		if (isSubmitting) return;
+		clearError();
+
+		var name = nameField ? nameField.value.trim() : '';
+		var email = emailField ? emailField.value.trim() : '';
+		var babyDate = babyField ? babyField.value.trim() : '';
+
+		if (!name) {
+		showError('Please enter your name.');
+		if (nameField) nameField.focus();
+		return;
+		}
+		if (!email) {
+		showError('Please enter your email address.');
+		if (emailField) emailField.focus();
+		return;
+		}
+		if (!EMAIL_RE.test(email)) {
+		showError('Please enter a valid email address.');
+		if (emailField) emailField.focus();
+		return;
+		}
+
+		isSubmitting = true;
+		if (submitBtn) {
+		submitBtn.disabled = true;
+		submitBtn.textContent = 'Submitting...';
+		}
+
+		var payload = {
+		data: {
+		type: 'subscription',
+		attributes: {
+		profile: {
+		data: {
+		type: 'profile',
+		attributes: {
+		email: email,
+		properties: {
+		full_name: name,
+		baby_age_or_due_date: babyDate
+		}
+		},
+		subscriptions: {
+		email: { marketing: { consent: 'SUBSCRIBED' } }
+		}
+		}
+		}
+		},
+		relationships: {
+		list: { data: { type: 'list', id: KLAVIYO_LIST_ID } }
+		}
+		}
+		};
+
+		fetch(KLAVIYO_SUBSCRIBE_URL, {
+		method: 'POST',
+		headers: {
+		'Content-Type': 'application/json',
+		Accept: 'application/json',
+		revision: KLAVIYO_API_REVISION
+		},
+		body: JSON.stringify(payload)
+		})
+		.then(function (response) {
+		if (!response.ok) {
+		return response.json().catch(function () { return null; }).then(function (errJson) {
+		var detail = 'Klaviyo responded with status ' + response.status;
+		if (errJson && errJson.errors && errJson.errors[0] && errJson.errors[0].detail) {
+		detail = errJson.errors[0].detail;
+		}
+		throw new Error(detail);
+		});
+		}
+
+		form.reset();
+		window.location.hash = '#thank-you';
+		})
+		.catch(function (err) {
+		console.error('Klaviyo subscribe failed:', err);
+		showError('Something went wrong — please try again in a moment.');
+		if (submitBtn) submitBtn.textContent = 'Please try again.';
+		})
+		.finally(function () {
+		isSubmitting = false;
+		if (submitBtn) {
+		submitBtn.disabled = false;
+		setTimeout(function () {
+		submitBtn.textContent = defaultLabel;
+		}, 2500);
+		}
 		});
 		});
 		}
+
+		document.addEventListener('DOMContentLoaded', function () {
+		setupWaitlistForm(document.getElementById('form02'));
+		setupWaitlistForm(document.getElementById('form03'));
 		});
+		})();
 		</script><!-- mnbnbxmbzxmncbzxc -->
 	</body>
 </html>
