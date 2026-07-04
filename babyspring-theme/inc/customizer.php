@@ -2,9 +2,10 @@
 /**
  * Customizer settings for Baby Springs.
  *
- * Adds an "Klaviyo Waitlist" section (integration keys) and a "Footer &
- * Social" section (social URLs + footer text) so the site owner can manage
- * everything from Appearance → Customize without touching code.
+ * Adds a "Klaviyo Waitlist" section (integration keys + thank-you redirect)
+ * and a "Footer & Social" section (social URLs + footer text) so the site
+ * owner can manage everything from Appearance → Customize without touching
+ * code.
  *
  * @package BabySprings
  */
@@ -70,6 +71,24 @@ function babysprings_customize_register( $wp_customize ) {
 		);
 	}
 
+	$wp_customize->add_setting(
+		'babysprings_thankyou_url',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'esc_url_raw',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		'babysprings_thankyou_url',
+		array(
+			'label'       => __( 'Thank You page URL (optional override)', 'babyspring' ),
+			'description' => __( 'Leave blank to auto-use the published Page assigned the "Thank You" page template. Only set this if you want to redirect somewhere else.', 'babyspring' ),
+			'section'     => 'babysprings_klaviyo',
+			'type'        => 'url',
+		)
+	);
+
 	/* -------------------------------------------------------------------
 	 * Footer & Social
 	 * ---------------------------------------------------------------- */
@@ -113,17 +132,29 @@ function babysprings_customize_register( $wp_customize ) {
 
 	// Social URLs — leave blank to hide an icon.
 	$social_fields = array(
-		'babysprings_social_instagram' => __( 'Instagram URL', 'babyspring' ),
-		'babysprings_social_facebook'  => __( 'Facebook URL', 'babyspring' ),
-		'babysprings_social_tiktok'    => __( 'TikTok URL', 'babyspring' ),
-		'babysprings_social_pinterest' => __( 'Pinterest URL', 'babyspring' ),
+		'babysprings_social_instagram' => array(
+			'label'   => __( 'Instagram URL', 'babyspring' ),
+			'default' => 'https://www.instagram.com/babysprings.studio',
+		),
+		'babysprings_social_facebook'  => array(
+			'label'   => __( 'Facebook URL', 'babyspring' ),
+			'default' => 'https://www.facebook.com/people/Baby-Springs/61585545691683',
+		),
+		'babysprings_social_tiktok'    => array(
+			'label'   => __( 'TikTok URL', 'babyspring' ),
+			'default' => 'https://www.tiktok.com/@babysprings.studio',
+		),
+		'babysprings_social_pinterest' => array(
+			'label'   => __( 'Pinterest URL', 'babyspring' ),
+			'default' => 'https://www.pinterest.com/BabySpringsStudio',
+		),
 	);
 
-	foreach ( $social_fields as $id => $label ) {
+	foreach ( $social_fields as $id => $field ) {
 		$wp_customize->add_setting(
 			$id,
 			array(
-				'default'           => '#',
+				'default'           => $field['default'],
 				'sanitize_callback' => 'esc_url_raw',
 				'transport'         => 'refresh',
 			)
@@ -131,7 +162,7 @@ function babysprings_customize_register( $wp_customize ) {
 		$wp_customize->add_control(
 			$id,
 			array(
-				'label'   => $label,
+				'label'   => $field['label'],
 				'section' => 'babysprings_footer',
 				'type'    => 'url',
 			)

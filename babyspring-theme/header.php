@@ -1,61 +1,46 @@
 <?php
 /**
- * Site header: <head>, opening <body>, fixed nav and mobile menu.
+ * Site header: <head>, opening <body> and the outer Carrd wrapper divs.
+ *
+ * The rest of the page (nav, hero, benefits, waitlist form, FAQ, footer
+ * content) lives in front-page.php / page.php, all inside the same
+ * <section id="home-section"> that this file opens and footer.php closes —
+ * this mirrors the original static export's markup exactly.
  *
  * @package BabySprings
  */
 
-?><!DOCTYPE html>
+?><!DOCTYPE HTML>
 <html <?php language_attributes(); ?>>
 <head>
+	<title><?php
+	if ( is_front_page() ) {
+		echo 'Baby Springs &#8212; DMV&#8217;s First Infant Hydrotherapy Wellness Studio';
+	} else {
+		echo esc_html( wp_get_document_title() );
+	}
+	?></title>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="color-scheme" content="light only" />
+	<?php if ( is_front_page() ) : ?>
+	<meta name="description" content="Gentle, development-focused infant hydrotherapy and wellness in Bethesda, Maryland. Join the founding waitlist. Opening March 2027." />
+	<?php endif; ?>
+	<link rel="icon" type="image/png" href="<?php echo esc_url( babysprings_asset( 'assets/images/favicon.png' ) ); ?>" />
+	<link rel="apple-touch-icon" href="<?php echo esc_url( babysprings_asset( 'assets/images/apple-touch-icon.png' ) ); ?>" />
+	<noscript><link rel="stylesheet" href="<?php echo esc_url( babysprings_asset( 'assets/noscript.css' ) ); ?>" /></noscript>
+	<script type="text/javascript">
+	(function(c,l,a,r,i,t,y){
+	c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+	t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+	y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+	})(window, document, "clarity", "script", "wqiiqhjcs1");
+	</script>
 	<?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class( 'is-loading' ); ?>>
 <?php wp_body_open(); ?>
-
-<!-- ===== NAV ===== -->
-<header id="header" class="site-header">
-	<div class="wrap nav">
-		<a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-			<img class="logo-nav" src="<?php echo esc_url( babysprings_logo_url() ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
-		</a>
-		<nav class="nav-links" aria-label="<?php esc_attr_e( 'Primary', 'babyspring' ); ?>">
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'primary',
-					'container'      => false,
-					'menu_class'     => 'nav-menu',
-					'depth'          => 1,
-					'fallback_cb'    => 'babysprings_default_menu',
-				)
-			);
-			?>
-			<a class="btn" href="#waitlist"><?php esc_html_e( 'Secure Your Spot', 'babyspring' ); ?></a>
-		</nav>
-		<button class="menu-btn" id="menuBtn" aria-label="<?php esc_attr_e( 'Open menu', 'babyspring' ); ?>">
-			<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3a3730" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-		</button>
-	</div>
-</header>
-
-<div class="mobile-menu" id="mobileMenu">
-	<button class="close" id="closeMenu" aria-label="<?php esc_attr_e( 'Close menu', 'babyspring' ); ?>">&times;</button>
-	<?php
-	wp_nav_menu(
-		array(
-			'theme_location' => 'primary',
-			'container'      => false,
-			'menu_class'     => 'mobile-nav-menu',
-			'depth'          => 1,
-			'is_mobile'      => true,
-			'fallback_cb'    => 'babysprings_default_menu',
-		)
-	);
-	?>
-	<a class="btn" href="#waitlist"><?php esc_html_e( 'Secure Your Spot', 'babyspring' ); ?></a>
-</div>
+<div class="site-wrapper">
+	<div class="site-main" role="main">
+		<div class="inner">
+			<section id="home-section">

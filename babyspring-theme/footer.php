@@ -1,63 +1,162 @@
 <?php
 /**
- * Site footer.
+ * Closes the wrapper/section opened in header.php, then prints the
+ * enqueued main.js (via wp_footer) followed by the Klaviyo waitlist
+ * subscribe script — credentials and the thank-you redirect come from the
+ * Customizer (see inc/customizer.php) so nothing here needs code edits.
  *
  * @package BabySprings
  */
-
-// Social links from the Customizer. Empty / "#" values are hidden.
-$babysprings_socials = array(
-	'instagram' => array(
-		'url' => babysprings_get_option( 'babysprings_social_instagram', '#' ),
-		'svg' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
-	),
-	'facebook'  => array(
-		'url' => babysprings_get_option( 'babysprings_social_facebook', '#' ),
-		'svg' => '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3 1-3 3v2H8v3h3v7h3v-7h2.5l.5-3H14v-1.5c0-.6.4-1 1-1z"/></svg>',
-	),
-	'tiktok'    => array(
-		'url' => babysprings_get_option( 'babysprings_social_tiktok', '#' ),
-		'svg' => '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2 1.7 3.6 4 4v3c-1.5 0-3-.5-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3h3z"/></svg>',
-	),
-	'pinterest' => array(
-		'url' => babysprings_get_option( 'babysprings_social_pinterest', '#' ),
-		'svg' => '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-4 19.2c-.1-.8-.2-2 0-2.9l1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.9 0 1.3.6 1.3 1.5 0 .9-.6 2.2-.9 3.4-.2 1 .5 1.8 1.5 1.8 1.8 0 3-2.3 3-5 0-2-1.4-3.6-3.9-3.6-2.9 0-4.6 2.1-4.6 4.4 0 .9.3 1.5.7 2 .2.2.2.3.1.6l-.2.9c-.1.3-.3.4-.6.2-1.2-.5-1.8-1.9-1.8-3.5 0-2.6 2.2-5.7 6.6-5.7 3.5 0 5.8 2.5 5.8 5.3 0 3.6-2 6.3-4.9 6.3-1 0-1.9-.5-2.2-1.1l-.6 2.4c-.2.8-.7 1.7-1 2.3A10 10 0 1 0 12 2z"/></svg>',
-	),
-);
 ?>
-
-<!-- ===== FOOTER ===== -->
-<footer class="site-footer">
-	<div class="wrap foot">
-		<a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-			<img class="logo-foot" src="<?php echo esc_url( babysprings_logo_url() ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
-		</a>
-		<div class="socials">
-			<?php
-			foreach ( $babysprings_socials as $name => $social ) {
-				// Hide an icon only if its field was cleared out entirely.
-				if ( '' === trim( (string) $social['url'] ) ) {
-					continue;
-				}
-				$is_placeholder = ( '#' === $social['url'] );
-				printf(
-					'<a href="%1$s" aria-label="%2$s"%3$s>%4$s</a>',
-					esc_url( $social['url'] ),
-					esc_attr( ucfirst( $name ) ),
-					$is_placeholder ? '' : ' target="_blank" rel="noopener noreferrer"',
-					$social['svg'] // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static inline SVG.
-				);
-			}
-			?>
-		</div>
-		<div class="divider"></div>
-		<div class="meta">
-			<?php echo esc_html( babysprings_get_option( 'babysprings_footer_meta', 'Bethesda, Maryland · Opening March 2027' ) ); ?><br />
-			<?php echo esc_html( babysprings_get_option( 'babysprings_footer_copyright', '© 2026 Baby Springs. All rights reserved.' ) ); ?>
+			</section>
 		</div>
 	</div>
-</footer>
-
+</div>
 <?php wp_footer(); ?>
+<script>
+(function () {
+'use strict';
+
+var KLAVIYO_LIST_ID = '<?php echo esc_js( babysprings_get_option( 'babysprings_klaviyo_list_id', 'Um8kBy' ) ); ?>';
+var KLAVIYO_PUBLIC_API_KEY = '<?php echo esc_js( babysprings_get_option( 'babysprings_klaviyo_public_key', 'Sqxup7' ) ); ?>';
+var KLAVIYO_API_REVISION = '<?php echo esc_js( babysprings_get_option( 'babysprings_klaviyo_revision', '2026-04-15' ) ); ?>';
+var THANK_YOU_URL = '<?php echo esc_js( babysprings_thank_you_url() ); ?>';
+var KLAVIYO_SUBSCRIBE_URL = 'https://a.klaviyo.com/client/subscriptions/?company_id=' + encodeURIComponent(KLAVIYO_PUBLIC_API_KEY);
+var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function setupWaitlistForm(form) {
+if (!form) return;
+
+var errorEl = form.querySelector('.bs-wl-error');
+var submitBtn = form.querySelector('.bs-wl-btn');
+var btnLabel = submitBtn.querySelector('.bs-wl-btn-label');
+var defaultLabel = btnLabel.textContent;
+var isSubmitting = false;
+
+// Looks up a field by trying several likely name/id variants, so this
+// script keeps working even if the HTML field names change later.
+function findField(candidates) {
+for (var i = 0; i < candidates.length; i++) {
+var el = form.querySelector('[name="' + candidates[i] + '"]') || form.querySelector('#' + candidates[i]);
+if (el) return el;
+}
+return null;
+}
+
+function setLabel(text) {
+btnLabel.textContent = text;
+}
+function showError(message) {
+errorEl.textContent = message;
+errorEl.classList.add('show');
+}
+function clearError() {
+errorEl.textContent = '';
+errorEl.classList.remove('show');
+}
+
+form.addEventListener('submit', function (e) {
+e.preventDefault();
+if (isSubmitting) return;
+clearError();
+
+var nameField = findField(['name', 'full_name', 'fullname', 'customer_name']);
+var emailField = findField(['email', 'email_address']);
+var babyField = findField(['baby_age_or_due_date', 'baby', 'baby_age', 'due_date', 'dob']);
+
+var name = nameField ? nameField.value.trim() : '';
+var email = emailField ? emailField.value.trim() : '';
+var babyAge = babyField ? babyField.value.trim() : '';
+
+if (!name) {
+showError('Please enter your name.');
+if (nameField) nameField.focus();
+return;
+}
+if (!email) {
+showError('Please enter your email address.');
+if (emailField) emailField.focus();
+return;
+}
+if (!EMAIL_RE.test(email)) {
+showError('Please enter a valid email address.');
+if (emailField) emailField.focus();
+return;
+}
+
+isSubmitting = true;
+submitBtn.disabled = true;
+setLabel('Submitting...');
+
+var payload = {
+data: {
+type: 'subscription',
+attributes: {
+profile: {
+data: {
+type: 'profile',
+attributes: {
+email: email,
+properties: {
+full_name: name,
+baby_age: babyAge
+}
+},
+subscriptions: {
+email: { marketing: { consent: 'SUBSCRIBED' } }
+}
+}
+}
+},
+relationships: {
+list: { data: { type: 'list', id: KLAVIYO_LIST_ID } }
+}
+}
+};
+
+fetch(KLAVIYO_SUBSCRIBE_URL, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+Accept: 'application/json',
+revision: KLAVIYO_API_REVISION
+},
+body: JSON.stringify(payload)
+})
+.then(function (response) {
+if (!response.ok) {
+return response.json().catch(function () { return null; }).then(function (errJson) {
+var detail = 'Klaviyo responded with status ' + response.status;
+if (errJson && errJson.errors && errJson.errors[0] && errJson.errors[0].detail) {
+detail = errJson.errors[0].detail;
+}
+throw new Error(detail);
+});
+}
+
+form.reset();
+window.location.href = THANK_YOU_URL;
+})
+.catch(function (err) {
+console.error('Klaviyo subscribe failed:', err);
+setLabel('Please try again.');
+showError('Something went wrong — please try again in a moment.');
+})
+.finally(function () {
+isSubmitting = false;
+submitBtn.disabled = false;
+setTimeout(function () {
+setLabel(defaultLabel);
+}, 2500);
+});
+});
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+setupWaitlistForm(document.getElementById('form02'));
+setupWaitlistForm(document.getElementById('form03'));
+});
+})();
+</script>
 </body>
 </html>

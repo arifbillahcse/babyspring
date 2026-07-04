@@ -1,9 +1,15 @@
 # Baby Springs — WordPress Theme
 
-A classic (PHP) WordPress theme port of the Baby Springs infant-hydrotherapy
-landing page. It keeps the exact design and animations of the static site while
-making the menu, logo, footer, and Klaviyo waitlist integration manageable from
-**wp-admin** — no code edits required.
+A classic (PHP) WordPress theme port of the current Baby Springs landing page.
+It reproduces the live design **1:1** — the same markup, `assets/main.css`, and
+`assets/main.js` from the static site — while making the Klaviyo waitlist,
+footer text, and social links manageable from **wp-admin** with no code edits.
+It also ships a matching **Thank You** page template that the waitlist form
+redirects to after a successful signup.
+
+Standard WordPress hooks (`wp_head`, `wp_body_open`, `wp_footer`) are wired up,
+so tag-manager and analytics plugins — **Google Tag Manager**, Site Kit,
+WPCode, etc. — inject their snippets correctly without editing theme files.
 
 ## Requirements
 - WordPress 6.0+
@@ -27,7 +33,16 @@ static front page is set:
 - Create a Page (e.g. "Home") — it can be empty.
 - **Settings → Reading → Your homepage displays → A static page → Homepage: Home.**
 
-### 2. Klaviyo waitlist integration
+### 2. Create the Thank You page
+- **Pages → Add New**, title it "Thank You" (an empty body is fine).
+- In **Page Attributes → Template**, choose **Thank You**, then Publish.
+
+The waitlist form finds this page automatically and redirects to it after a
+successful signup. (If no such page exists it falls back to `/thank-you/`. You
+can also force a specific URL under **Customize → Klaviyo Waitlist → Thank You
+page URL**.)
+
+### 3. Klaviyo waitlist integration
 **Appearance → Customize → Klaviyo Waitlist.** Pre-filled with working values;
 change them to your own if needed:
 - **Klaviyo List ID** — the list new signups join (this is what triggers your
@@ -36,41 +51,39 @@ change them to your own if needed:
   Safe to expose publicly. **Not** the private key.
 - **Klaviyo API Revision** — leave as-is unless Klaviyo retires the version.
 
-The form posts to Klaviyo's modern `client/subscriptions` API (CORS-enabled),
-maps `Name → full_name`, `Baby's Age or Due Date → baby_age`, and adds the
-profile to your list, which fires the **Baby Springs Waitlist Welcome** flow.
-If the list uses double opt-in, Klaviyo sends a confirmation email first and the
-flow fires after the visitor confirms.
+Both the desktop and mobile forms post to Klaviyo's modern
+`client/subscriptions` API (CORS-enabled), map `Name → full_name` and
+`Baby's Age or Due Date → baby_age`, add the profile to your list, then redirect
+to the Thank You page.
 
-### 3. Navigation menu
-**Appearance → Menus** → create a menu → assign it to the **Primary Menu**
-location. Use **Custom Links** for the on-page anchors:
-`#about`, `#benefits`, `#faq` (and `#waitlist` if you want it in the menu).
-If you skip this, a default About / Benefits / FAQ menu is shown automatically.
-The "Secure Your Spot" button is always present and links to the form.
-
-### 4. Logo
-**Appearance → Customize → Site Identity → Logo.** If none is set, the bundled
-Baby Springs logo (`assets/images/image03.png`) is used in the header and footer.
+### 4. Set up Google Tag Manager / analytics
+Install any GTM/analytics plugin (e.g. **GTM4WP**, **Site Kit**, or **WPCode**)
+and paste your container ID. The theme fires `wp_head`, `wp_body_open`, and
+`wp_footer` in the right places, so the plugin's head script and `<body>`
+noscript snippet land correctly — nothing to edit in the theme.
 
 ### 5. Footer & social links
 **Appearance → Customize → Footer & Social** — edit the location/opening line,
 the copyright line, and the Instagram / Facebook / TikTok / Pinterest URLs.
-Clear a social field to hide that icon.
+Clear a social field to hide that icon. These feed both the homepage footer and
+the Thank You page footer.
 
 ## File overview
 | File | Purpose |
 |------|---------|
-| `style.css` | Theme header + all styles |
-| `functions.php` | Setup, asset enqueue, menus, logo helper, Klaviyo settings → JS |
-| `inc/customizer.php` | Customizer panels (Klaviyo, Footer & Social) |
-| `header.php` / `footer.php` | Site chrome, dynamic menus & footer |
-| `front-page.php` | The landing page sections |
+| `style.css` | Theme header (styling lives in `assets/main.css`) |
+| `functions.php` | Setup, asset enqueue, Customizer helpers, thank-you URL resolver |
+| `inc/customizer.php` | Customizer panels (Klaviyo Waitlist, Footer & Social) |
+| `header.php` / `footer.php` | Opens/closes the page wrapper; footer prints the Klaviyo subscribe script |
+| `front-page.php` | The landing page — nav, hero, benefits, waitlist forms, FAQ, footer |
+| `page-thank-you.php` | "Thank You" page template (post-signup confirmation) |
 | `page.php` / `index.php` | Generic page + fallback templates |
-| `assets/js/main.js` | Nav, FAQ, reveal animations, Klaviyo form |
+| `assets/main.css` / `assets/main.js` | The design's compiled CSS + JS (unchanged from the static site) |
+| `assets/icons.svg` | Sprite of UI + social icons |
 | `assets/images/` | Hero, nursery, and logo images |
 
 ## Editing section copy
-Headlines and body copy live in `front-page.php`, wrapped in translation
-functions. Edit the text between the quotes (keep the surrounding markup) to
-change wording. The FAQ questions/answers are near the bottom of that file.
+Headlines, body copy, and the FAQ questions/answers live in `front-page.php`.
+Edit the text (keep the surrounding markup) to change wording. Nav labels and
+on-page anchors (`#about`, `#benefit`, `#faq`, `#spot`) are in the `sn-nav`
+block near the top of that file.
