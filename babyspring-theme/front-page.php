@@ -416,59 +416,6 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 			<div>
 				<form class="bs-wl-form" id="form02" novalidate>
 					<!-- Baby Springs — Waitlist Form -->
-					<style>
-					.bs-wl-form {
-					font-size: 15px;
-					font-family: Arial, sans-serif;
-					background: #f7f5f2;
-					border: 1px solid #d8d3cd;
-					border-radius: 0.375em;
-					padding: 2em;
-					box-shadow: 0 1.25em 3em -1.25em rgba(90,80,60,.35);
-					}
-					.bs-wl-field { position: relative; margin-bottom: 1em; }
-					.bs-wl-field input {
-					width: 100%;
-					padding: 1.05em 1.1em;
-					border: 1px solid #d8d3cd;
-					border-radius: 0.5em;
-					background: #fff;
-					font-family: inherit;
-					font-size: 1em;
-					color: #2f2f2f;
-					transition: border-color .3s, box-shadow .3s;
-					}
-					.bs-wl-field input::placeholder { color: #b3ad9f; }
-					.bs-wl-field input:focus {
-					outline: none;
-					border-color: #74866E;
-					box-shadow: 0 0 0 0.1875em rgba(116,134,110,.18);
-					}
-					.bs-wl-btn {
-					width: 100%;
-					margin-top: .4em;
-					display: inline-flex;
-					align-items: center;
-					justify-content: center;
-					gap: .6em;
-					padding: 1em 1.2em;
-					border: 0;
-					border-radius: 0.125em;
-					background: #74866E;
-					color: #fafafa;
-					font-family: inherit;
-					font-size: .8em;
-					font-weight: 400;
-					letter-spacing: .12em;
-					text-transform: uppercase;
-					cursor: pointer;
-					transition: background-color .2s ease;
-					}
-					.bs-wl-btn:hover { background: #5f7e6e; }
-					.bs-wl-btn:disabled { opacity: .7; cursor: not-allowed; }
-					.bs-wl-error { display: none; font-size: .85em; color: #b3453a; margin-top: .9em; text-align: center; }
-					.bs-wl-error.show { display: block; }
-					</style>
 					<div class="bs-wl-inner">
 						<div class="bs-wl-field"><input type="text" name="name" id="form02-name" placeholder="Name" required /></div>
 						<div class="bs-wl-field"><input type="email" name="email" id="form02-email" placeholder="Email Address" required /></div>
