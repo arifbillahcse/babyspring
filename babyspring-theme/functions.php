@@ -317,6 +317,11 @@ function babysprings_section_spacing_css() {
  * individual item's own box (align-items only affects a flex item's box
  * when it isn't stretched to full width, which isn't guaranteed here).
  *
+ * Also restyles the meta text and social icons on mobile to visually match
+ * the Thank You page footer (circular filled icon buttons, centered text)
+ * instead of the Carrd default (square outlined icons, no fill) — desktop
+ * is untouched either way.
+ *
  * @return string
  */
 function babysprings_footer_logo_css() {
@@ -338,6 +343,24 @@ function babysprings_footer_logo_css() {
 		}
 		.bs-footer-logo-mobile > .frame {
 			width: 12rem;
+		}
+		.container-component.instance-11 .text-component.instance-2 {
+			width: 100%;
+			text-align: center;
+		}
+		.container-component.instance-11 .icons-component.instance-2 {
+			width: 100%;
+			justify-content: center;
+		}
+		.container-component.instance-11 .icons-component.instance-2 > li > a {
+			border-radius: 50%;
+			background: #f7f5f2;
+		}
+		.container-component.instance-11 .icons-component.instance-2 > li > a:hover {
+			background: #74866E !important;
+		}
+		.container-component.instance-11 .icons-component.instance-2 > li > a:hover > svg {
+			fill: #fff !important;
 		}
 	}
 	';
