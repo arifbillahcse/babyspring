@@ -680,8 +680,7 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 			<p><?php echo esc_html( $babysprings_footer_meta ); ?></p>
 			<p><?php echo esc_html( $babysprings_footer_copyright ); ?></p>
 		</div>
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-footer-logo ty-footer-logo-desktop"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image11.png' ) ); ?>" alt="Baby Springs" /></a>
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-footer-logo ty-footer-logo-mobile"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/logo-horizontal.png' ) ); ?>" alt="Baby Springs" /></a>
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-footer-logo"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/logo-horizontal.png' ) ); ?>" alt="Baby Springs" /></a>
 		<div class="ty-socials">
 			<?php
 			foreach ( $babysprings_socials as $babysprings_social_name => $babysprings_social ) {

@@ -88,7 +88,6 @@
 			gap: 1.5rem;
 		}
 		.ty-footer-logo img { height: 3.2rem; width: auto; }
-		.ty-footer-logo-mobile { display: none; }
 		.ty-footer-meta { font-size: .88rem; color: #6d675c; text-align: center; }
 		.ty-footer-meta p + p { margin-top: .3rem; }
 		.ty-socials { display: flex; gap: .6rem; justify-content: flex-end; }
@@ -105,9 +104,8 @@
 		@media (max-width: 700px) {
 			.ty-footer .wrap { grid-template-columns: 1fr; text-align: center; }
 			.ty-socials { justify-content: center; }
-			.ty-footer-logo-desktop { display: none; }
-			.ty-footer-logo-mobile { display: inline-block; justify-self: center; }
-			.ty-footer-logo-mobile img { height: auto; width: 12rem; }
+			.ty-footer-logo { justify-self: center; }
+			.ty-footer-logo img { height: auto; width: 12rem; }
 		}
 	</style>
 	<?php wp_head(); ?>
@@ -136,8 +134,7 @@
 				<p><?php echo esc_html( babysprings_get_option( 'babysprings_footer_meta', 'Bethesda, Maryland · Opening March 2027' ) ); ?></p>
 				<p><?php echo esc_html( babysprings_get_option( 'babysprings_footer_copyright', '© 2026 Baby Springs. All rights reserved.' ) ); ?></p>
 			</div>
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-footer-logo ty-footer-logo-desktop"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image10.png' ) ); ?>" alt="Baby Springs" /></a>
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-footer-logo ty-footer-logo-mobile"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/logo-horizontal.png' ) ); ?>" alt="Baby Springs" /></a>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-footer-logo"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/logo-horizontal.png' ) ); ?>" alt="Baby Springs" /></a>
 			<div class="ty-socials">
 				<?php
 				$babysprings_ty_socials = array(

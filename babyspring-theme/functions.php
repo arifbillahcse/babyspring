@@ -331,7 +331,6 @@ function babysprings_footer_logo_css() {
 		gap: 1.5rem;
 	}
 	.ty-footer-logo img { height: 3.2rem; width: auto; }
-	.ty-footer-logo-mobile { display: none; }
 	.ty-footer-meta { font-size: .88rem; color: #6d675c; text-align: center; }
 	.ty-footer-meta p + p { margin-top: .3rem; }
 	.ty-socials { display: flex; gap: .6rem; justify-content: flex-end; }
@@ -347,9 +346,8 @@ function babysprings_footer_logo_css() {
 	@media (max-width: 700px) {
 		.ty-footer .wrap { grid-template-columns: 1fr; text-align: center; }
 		.ty-socials { justify-content: center; }
-		.ty-footer-logo-desktop { display: none; }
-		.ty-footer-logo-mobile { display: inline-block; justify-self: center; }
-		.ty-footer-logo-mobile img { height: auto; width: 12rem; }
+		.ty-footer-logo { justify-self: center; }
+		.ty-footer-logo img { height: auto; width: 12rem; }
 	}
 	';
 }
