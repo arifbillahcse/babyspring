@@ -421,7 +421,10 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 						<div class="bs-wl-field"><input type="email" name="email" id="form02-email" placeholder="Email Address" required /></div>
 						<div class="bs-wl-field bs-wl-field-date">
 							<label class="bs-wl-label" for="form02-baby_age_or_due_date">Baby&#039;s Age or Due Date</label>
-							<input type="date" name="baby_age_or_due_date" id="form02-baby_age_or_due_date" />
+							<div class="bs-wl-date-shell">
+								<input type="date" name="baby_age_or_due_date" id="form02-baby_age_or_due_date" class="bs-wl-date-input" />
+								<span class="bs-wl-date-display bs-wl-placeholder" aria-hidden="true">Select a date</span>
+							</div>
 						</div>
 						<button class="bs-wl-btn" type="submit" id="form02-submitBtn">
 							<span class="bs-wl-btn-label">Secure Your Spot</span>
@@ -451,7 +454,10 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 						<div class="bs-wl-field"><input type="email" name="email" id="form03-email" placeholder="Email Address" required /></div>
 						<div class="bs-wl-field bs-wl-field-date">
 							<label class="bs-wl-label" for="form03-baby_age_or_due_date">Baby&#039;s Age or Due Date</label>
-							<input type="date" name="baby_age_or_due_date" id="form03-baby_age_or_due_date" />
+							<div class="bs-wl-date-shell">
+								<input type="date" name="baby_age_or_due_date" id="form03-baby_age_or_due_date" class="bs-wl-date-input" />
+								<span class="bs-wl-date-display bs-wl-placeholder" aria-hidden="true">Select a date</span>
+							</div>
 						</div>
 						<button class="bs-wl-btn" type="submit" id="form03-submitBtn">
 							<span class="bs-wl-btn-label">Secure Your Spot</span>

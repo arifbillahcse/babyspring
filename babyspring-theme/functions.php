@@ -102,12 +102,35 @@ function babysprings_waitlist_form_css() {
 		color: #6d675c;
 		margin-bottom: .4em;
 	}
-	.bs-wl-field-date input[type="date"] {
+	.bs-wl-date-shell { position: relative; }
+	.bs-wl-date-shell .bs-wl-date-input {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		opacity: 0;
 		cursor: pointer;
+		z-index: 2;
 	}
-	.bs-wl-field-date input[type="date"]::-webkit-calendar-picker-indicator {
-		cursor: pointer;
-		filter: invert(46%) sepia(11%) saturate(716%) hue-rotate(53deg) brightness(94%) contrast(87%);
+	.bs-wl-date-display {
+		display: block;
+		width: 100%;
+		padding: 1.05em 1.1em;
+		border: 1px solid #d8d3cd;
+		border-radius: 0.5em;
+		background: #fff;
+		font-family: inherit;
+		font-size: 1em;
+		color: #2f2f2f;
+		pointer-events: none;
+	}
+	.bs-wl-date-display.bs-wl-placeholder { color: #b3ad9f; }
+	.bs-wl-date-input:focus + .bs-wl-date-display {
+		border-color: #74866E;
+		box-shadow: 0 0 0 0.1875em rgba(116,134,110,.18);
 	}
 	.bs-wl-btn {
 		width: 100%;

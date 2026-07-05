@@ -23,6 +23,50 @@ var KLAVIYO_API_REVISION = '<?php echo esc_js( babysprings_get_option( 'babyspri
 var THANK_YOU_URL = '<?php echo esc_js( babysprings_thank_you_url() ); ?>';
 var KLAVIYO_SUBSCRIBE_URL = 'https://a.klaviyo.com/client/subscriptions/?company_id=' + encodeURIComponent(KLAVIYO_PUBLIC_API_KEY);
 var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+var MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+// Native <input type="date"> values are always ISO (YYYY-MM-DD) regardless
+// of locale, so this parses that directly rather than via `new Date(value)`
+// (which reads it as UTC midnight and can display a day off in the browser's
+// local timezone).
+function formatDisplayDate(isoValue) {
+if (!isoValue) return '';
+var parts = isoValue.split('-');
+if (parts.length !== 3) return isoValue;
+var year = parseInt(parts[0], 10);
+var month = MONTH_NAMES[parseInt(parts[1], 10) - 1];
+var day = parseInt(parts[2], 10);
+if (!month || isNaN(year) || isNaN(day)) return isoValue;
+return day + ' ' + month + ', ' + year;
+}
+
+// Pairs a hidden native date input with a formatted "7 July, 2026" display
+// span (see .bs-wl-date-shell in front-page.php) so the field still opens
+// the browser's real calendar picker but shows a friendlier date format.
+function setupDateDisplay(form) {
+if (!form) return;
+
+var dateInput = form.querySelector('.bs-wl-date-input');
+var display = form.querySelector('.bs-wl-date-display');
+if (!dateInput || !display) return;
+
+var placeholderText = display.textContent;
+
+function sync() {
+var formatted = formatDisplayDate(dateInput.value);
+if (formatted) {
+display.textContent = formatted;
+display.classList.remove('bs-wl-placeholder');
+} else {
+display.textContent = placeholderText;
+display.classList.add('bs-wl-placeholder');
+}
+}
+
+dateInput.addEventListener('change', sync);
+dateInput.addEventListener('input', sync);
+sync();
+}
 
 function setupWaitlistForm(form) {
 if (!form) return;
@@ -135,6 +179,8 @@ throw new Error(detail);
 }
 
 form.reset();
+var resetDateInput = form.querySelector('.bs-wl-date-input');
+if (resetDateInput) resetDateInput.dispatchEvent(new Event('change'));
 window.location.href = THANK_YOU_URL;
 })
 .catch(function (err) {
@@ -155,6 +201,8 @@ setLabel(defaultLabel);
 document.addEventListener('DOMContentLoaded', function () {
 setupWaitlistForm(document.getElementById('form02'));
 setupWaitlistForm(document.getElementById('form03'));
+setupDateDisplay(document.getElementById('form02'));
+setupDateDisplay(document.getElementById('form03'));
 });
 })();
 </script>
