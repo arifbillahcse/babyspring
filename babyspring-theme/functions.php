@@ -349,8 +349,11 @@ function babysprings_footer_logo_css() {
 			text-align: center;
 		}
 		.container-component.instance-11 .icons-component.instance-2 {
-			width: 100%;
-			justify-content: center;
+			--flex-alignment: center !important;
+			width: 100% !important;
+			margin: 0 auto !important;
+			text-align: center;
+			justify-content: center !important;
 			gap: .6rem !important;
 		}
 		.container-component.instance-11 .icons-component.instance-2 > li > a {
