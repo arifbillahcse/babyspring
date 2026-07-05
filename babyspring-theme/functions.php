@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // No direct access.
 }
 
-define( 'BABYSPRINGS_VERSION', '1.0.0' );
+define( 'BABYSPRINGS_VERSION', '2.0.0' );
 
 /**
  * Theme setup.
