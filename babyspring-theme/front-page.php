@@ -39,11 +39,8 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 	<div class="wrapper">
 		<div class="inner">
 			<div>
-				<div id="image03" class="image-component instance-3 bs-logo-desktop-only">
-					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image03.png' ) ); ?>" alt="Baby Springs" /></a>
-				</div>
-				<div class="image-component instance-3 bs-logo-mobile-only">
-					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/logo-horizontal.png' ) ); ?>" alt="Baby Springs" /></a>
+				<div id="image03" class="image-component instance-3">
+					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image03.png' ) ); ?>" alt="" /></a>
 				</div>
 			</div>
 			<div>
