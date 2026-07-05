@@ -96,6 +96,19 @@ function babysprings_waitlist_form_css() {
 		border-color: #74866E;
 		box-shadow: 0 0 0 0.1875em rgba(116,134,110,.18);
 	}
+	.bs-wl-label {
+		display: block;
+		font-size: .78em;
+		color: #6d675c;
+		margin-bottom: .4em;
+	}
+	.bs-wl-field-date input[type="date"] {
+		cursor: pointer;
+	}
+	.bs-wl-field-date input[type="date"]::-webkit-calendar-picker-indicator {
+		cursor: pointer;
+		filter: invert(46%) sepia(11%) saturate(716%) hue-rotate(53deg) brightness(94%) contrast(87%);
+	}
 	.bs-wl-btn {
 		width: 100%;
 		height: 3.5rem;

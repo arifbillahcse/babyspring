@@ -419,7 +419,10 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 					<div class="bs-wl-inner">
 						<div class="bs-wl-field"><input type="text" name="name" id="form02-name" placeholder="Name" required /></div>
 						<div class="bs-wl-field"><input type="email" name="email" id="form02-email" placeholder="Email Address" required /></div>
-						<div class="bs-wl-field"><input type="text" name="baby_age_or_due_date" id="form02-baby_age_or_due_date" placeholder="Baby&#039;s Age or Due Date" /></div>
+						<div class="bs-wl-field bs-wl-field-date">
+							<label class="bs-wl-label" for="form02-baby_age_or_due_date">Baby&#039;s Age or Due Date</label>
+							<input type="date" name="baby_age_or_due_date" id="form02-baby_age_or_due_date" />
+						</div>
 						<button class="bs-wl-btn" type="submit" id="form02-submitBtn">
 							<span class="bs-wl-btn-label">Secure Your Spot</span>
 							<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -446,7 +449,10 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 					<div class="bs-wl-inner">
 						<div class="bs-wl-field"><input type="text" name="name" id="form03-name" placeholder="Name" required /></div>
 						<div class="bs-wl-field"><input type="email" name="email" id="form03-email" placeholder="Email Address" required /></div>
-						<div class="bs-wl-field"><input type="text" name="baby_age_or_due_date" id="form03-baby_age_or_due_date" placeholder="Baby&#039;s Age or Due Date" /></div>
+						<div class="bs-wl-field bs-wl-field-date">
+							<label class="bs-wl-label" for="form03-baby_age_or_due_date">Baby&#039;s Age or Due Date</label>
+							<input type="date" name="baby_age_or_due_date" id="form03-baby_age_or_due_date" />
+						</div>
 						<button class="bs-wl-btn" type="submit" id="form03-submitBtn">
 							<span class="bs-wl-btn-label">Secure Your Spot</span>
 							<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
