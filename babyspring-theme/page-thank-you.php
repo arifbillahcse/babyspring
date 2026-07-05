@@ -45,9 +45,6 @@
 			gap: clamp(2rem, 5vw, 4rem);
 			align-items: center;
 		}
-		.ty-logo { display: inline-block; margin-bottom: 1.75rem; }
-		.ty-logo img { height: 3.6rem; width: auto; }
-
 		.ty-title {
 			font-family: 'Cormorant Garamond', serif;
 			font-weight: 500;
@@ -65,14 +62,6 @@
 			max-width: 30rem;
 			margin-bottom: 1.6rem;
 		}
-
-		.ty-chips { list-style: none; display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1.8rem; }
-		.ty-chips li a {
-			display: inline-flex; align-items: center; gap: .5rem;
-			padding: .55rem .9rem; border: 1px solid #d8d3cd; border-radius: 2rem;
-			background: #f7f5f2; font-size: .86rem; color: #2f2f2f;
-		}
-		.ty-chips li svg { width: 1.1rem; height: 1.1rem; fill: #74866E; flex: none; }
 
 		.ty-btn {
 			display: inline-flex; align-items: center; gap: .6rem;
@@ -94,7 +83,7 @@
 		.ty-footer { border-top: 1px solid #e2dacb; padding: 2.5rem 0; }
 		.ty-footer .wrap {
 			display: grid;
-			grid-template-columns: auto 1fr auto;
+			grid-template-columns: 1fr auto 1fr;
 			align-items: center;
 			gap: 1.5rem;
 		}
@@ -125,15 +114,9 @@
 		<div class="wrap">
 			<div class="ty-grid">
 				<div>
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-logo"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image03.png' ) ); ?>" alt="Baby Springs" /></a>
 					<h1 class="ty-title">Thank you!</h1>
 					<hr class="ty-divider" />
-					<p class="ty-copy">Your waitlist registration has been received — you're officially one of our founding families. We'll be in touch soon with priority booking access, founding member benefits, and updates as our March 2027 opening approaches.</p>
-					<ul class="ty-chips">
-						<li><a role="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg><span>Registration confirmed</span></a></li>
-						<li><a role="button"><svg viewBox="0 0 40 40"><use xlink:href="<?php echo esc_url( babysprings_asset( 'assets/icons.svg' ) ); ?>#lock"></use></svg><span>Founding member benefits</span></a></li>
-						<li><a role="button"><svg viewBox="0 0 40 40"><use xlink:href="<?php echo esc_url( babysprings_asset( 'assets/icons.svg' ) ); ?>#calendar"></use></svg><span>Opening March 2027</span></a></li>
-					</ul>
+					<p class="ty-copy">Welcome to Baby Springs. You&#8217;re officially on the waitlist. We&#8217;ll be in touch soon with exciting updates.</p>
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-btn">Back to homepage</a>
 				</div>
 				<div class="ty-image">
@@ -145,11 +128,11 @@
 
 	<footer class="ty-footer">
 		<div class="wrap">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-footer-logo"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image10.png' ) ); ?>" alt="Baby Springs" /></a>
 			<div class="ty-footer-meta">
 				<p><?php echo esc_html( babysprings_get_option( 'babysprings_footer_meta', 'Bethesda, Maryland · Opening March 2027' ) ); ?></p>
 				<p><?php echo esc_html( babysprings_get_option( 'babysprings_footer_copyright', '© 2026 Baby Springs. All rights reserved.' ) ); ?></p>
 			</div>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-footer-logo"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image10.png' ) ); ?>" alt="Baby Springs" /></a>
 			<div class="ty-socials">
 				<?php
 				$babysprings_ty_socials = array(
