@@ -351,13 +351,25 @@ function babysprings_footer_logo_css() {
 		.container-component.instance-11 .icons-component.instance-2 {
 			width: 100%;
 			justify-content: center;
+			gap: .6rem !important;
 		}
 		.container-component.instance-11 .icons-component.instance-2 > li > a {
+			width: 2.4rem !important;
+			height: 2.4rem !important;
 			border-radius: 50%;
 			background: #f7f5f2;
+			border: 1px solid #e2dacb !important;
+			transition: background-color .2s ease !important;
+		}
+		.container-component.instance-11 .icons-component.instance-2 > li > a > svg {
+			width: 1.1rem !important;
+			height: 1.1rem !important;
+			fill: #6d675c !important;
+			transition: fill .2s ease !important;
 		}
 		.container-component.instance-11 .icons-component.instance-2 > li > a:hover {
 			background: #74866E !important;
+			border-color: #74866E !important;
 		}
 		.container-component.instance-11 .icons-component.instance-2 > li > a:hover > svg {
 			fill: #fff !important;
