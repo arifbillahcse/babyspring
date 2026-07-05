@@ -98,12 +98,6 @@ function babysprings_waitlist_form_css() {
 		border-color: #74866E;
 		box-shadow: 0 0 0 0.1875em rgba(116,134,110,.18);
 	}
-	.bs-wl-label {
-		display: block;
-		font-size: .78em;
-		color: #6d675c;
-		margin-bottom: .4em;
-	}
 	.bs-wl-date-shell { position: relative; }
 	.bs-wl-date-shell .bs-wl-date-input {
 		position: absolute;
@@ -114,8 +108,7 @@ function babysprings_waitlist_form_css() {
 		padding: 0;
 		border: 0;
 		opacity: 0;
-		cursor: pointer;
-		z-index: 2;
+		z-index: 1;
 	}
 	.bs-wl-date-display {
 		display: block;
@@ -127,7 +120,9 @@ function babysprings_waitlist_form_css() {
 		font-family: inherit;
 		font-size: 1em;
 		color: #2f2f2f;
-		pointer-events: none;
+		cursor: pointer;
+		position: relative;
+		z-index: 2;
 	}
 	.bs-wl-date-display.bs-wl-placeholder { color: #b3ad9f; }
 	.bs-wl-date-input:focus + .bs-wl-date-display {

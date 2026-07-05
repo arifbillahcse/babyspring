@@ -66,6 +66,26 @@ display.classList.add('bs-wl-placeholder');
 dateInput.addEventListener('change', sync);
 dateInput.addEventListener('input', sync);
 sync();
+
+// The display span sits on top of the (invisible) real input so its
+// text can be reformatted, which means clicks land on the span, not
+// the input underneath. Open the picker explicitly instead of relying
+// on the click passing through — that passthrough is inconsistent
+// across browsers and was the reported "date picker does not work" bug.
+display.addEventListener('click', function () {
+if (typeof dateInput.showPicker === 'function') {
+try {
+dateInput.showPicker();
+return;
+} catch (err) {
+// Falls through to the focus/click fallback below.
+}
+}
+dateInput.focus();
+if (typeof dateInput.click === 'function') {
+dateInput.click();
+}
+});
 }
 
 function setupWaitlistForm(form) {
