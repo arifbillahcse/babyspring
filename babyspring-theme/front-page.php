@@ -431,7 +431,7 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 							<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
 						</button>
 						<p class="bs-wl-error" id="form02-error" role="alert"></p>
-						<p class="bs-wl-urgency"><span class="bs-wl-dot" aria-hidden="true"></span>Spots are filling fast — only a few left</p>
+						<p class="bs-wl-urgency"><span class="bs-wl-dot" aria-hidden="true"></span>Limited waitlist availability.</p>
 					</div>
 				</form>
 				<p id="text22" class="text-component instance-22">You&#39;ll receive early booking access, founding member benefits, and priority scheduling.</p>
@@ -464,7 +464,7 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 							<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
 						</button>
 						<p class="bs-wl-error" id="form03-error" role="alert"></p>
-						<p class="bs-wl-urgency"><span class="bs-wl-dot" aria-hidden="true"></span>Spots are filling fast — only a few left</p>
+						<p class="bs-wl-urgency"><span class="bs-wl-dot" aria-hidden="true"></span>Limited waitlist availability.</p>
 					</div>
 				</form>
 				<p id="text29" class="text-component instance-29">You&#39;ll receive early booking access, founding member benefits, and priority scheduling.</p>
