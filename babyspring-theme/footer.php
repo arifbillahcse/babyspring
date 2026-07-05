@@ -207,6 +207,13 @@ function setupBenefitReveal() {
 var cards = document.querySelectorAll('.bs-benefit');
 if (!cards.length || !('IntersectionObserver' in window)) return;
 
+// Devices with real hover (mouse/trackpad) already get the effect from
+// CSS :hover — skip the observer there, or every card sitting in the
+// viewport at once (typical on desktop) would light up simultaneously.
+if (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+return;
+}
+
 var observer = new IntersectionObserver(function (entries) {
 entries.forEach(function (entry) {
 if (entry.isIntersecting) {

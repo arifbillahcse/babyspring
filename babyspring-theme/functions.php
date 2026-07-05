@@ -217,32 +217,33 @@ function babysprings_benefits_css() {
 	return '
 	.bs-benefit {
 		position: relative;
+		z-index: 1;
 		border-radius: 0.85rem;
-		transition: transform .4s ease;
+		transition: transform .3s ease;
 	}
 	.bs-benefit::before {
 		content: "";
 		position: absolute;
-		inset: -0.85rem -1rem;
+		inset: -1.25rem -0.5rem;
 		border-radius: 1rem;
-		background: rgba(116,134,110,.08);
-		box-shadow: 0 1.5rem 2.5rem -1.5rem rgba(90,100,80,.35);
-		opacity: 0;
-		transform: scale(.96);
-		transition: opacity .4s ease, transform .4s ease;
+		background: #f7f5f2;
+		border: 1px solid #e2dacb;
+		box-shadow: 0 1.25rem 2.5rem -1.75rem rgba(90,100,80,.3);
 		z-index: -1;
+		transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease;
 		pointer-events: none;
 	}
 	.bs-benefit .image-component > .frame > img {
-		transition: filter .4s ease !important;
+		transition: filter .3s ease !important;
 	}
 	.bs-benefit-title {
-		transition: color .4s ease;
+		transition: color .3s ease;
 	}
 	.bs-benefit.is-active::before,
 	.bs-benefit:active::before {
-		opacity: 1;
-		transform: scale(1);
+		background: #eef1ec;
+		border-color: #c9d3c6;
+		box-shadow: 0 1.5rem 2.75rem -1.5rem rgba(90,100,80,.4);
 	}
 	.bs-benefit.is-active,
 	.bs-benefit:active {
@@ -258,8 +259,9 @@ function babysprings_benefits_css() {
 	}
 	@media (hover: hover) and (pointer: fine) {
 		.bs-benefit:hover::before {
-			opacity: 1;
-			transform: scale(1);
+			background: #eef1ec;
+			border-color: #c9d3c6;
+			box-shadow: 0 1.5rem 2.75rem -1.5rem rgba(90,100,80,.4);
 		}
 		.bs-benefit:hover {
 			transform: translateY(-4px);
