@@ -106,7 +106,7 @@
 			.ty-footer .wrap { grid-template-columns: 1fr; text-align: center; }
 			.ty-socials { justify-content: center; }
 			.ty-footer-logo-desktop { display: none; }
-			.ty-footer-logo-mobile { display: inline-block; }
+			.ty-footer-logo-mobile { display: inline-block; justify-self: center; }
 			.ty-footer-logo-mobile img { height: auto; width: 12rem; }
 		}
 	</style>
