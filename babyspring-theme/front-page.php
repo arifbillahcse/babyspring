@@ -339,34 +339,34 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 <div id="container01" class="container-component instance-1 columns full screen">
 	<div class="wrapper">
 		<div class="inner">
-			<div>
+			<div class="bs-benefit">
 				<div id="image07" class="image-component instance-7">
 					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image07.png' ) ); ?>" alt="" /></a>
 				</div>
-				<p id="text15" class="text-component instance-15">Supports development &amp; movement</p>
+				<p id="text15" class="text-component instance-15 bs-benefit-title">Supports development &amp; movement</p>
 				<p id="text18" class="text-component instance-18">Encourages healthy physical growth and body awareness.</p>
 			</div>
-			<div>
+			<div class="bs-benefit">
 				<div id="image08" class="image-component instance-8">
 					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image08.png' ) ); ?>" alt="" /></a>
 				</div>
-				<p id="text27" class="text-component instance-27" data-visibility="desktop"><span class="p">Promotes better<br />sleep</span></p>
-				<p id="text16" class="text-component instance-16" data-visibility="mobile">Promotes better sleep</p>
+				<p id="text27" class="text-component instance-27 bs-benefit-title" data-visibility="desktop"><span class="p">Promotes better<br />sleep</span></p>
+				<p id="text16" class="text-component instance-16 bs-benefit-title" data-visibility="mobile">Promotes better sleep</p>
 				<p id="text19" class="text-component instance-19">Helps regulate and calm the nervous system.</p>
 			</div>
-			<div>
+			<div class="bs-benefit">
 				<div id="image09" class="image-component instance-9">
 					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image09.png' ) ); ?>" alt="" /></a>
 				</div>
-				<p id="text17" class="text-component instance-17">Enhances bonding &amp; connection</p>
+				<p id="text17" class="text-component instance-17 bs-benefit-title">Enhances bonding &amp; connection</p>
 				<p id="text20" class="text-component instance-20">Creates meaningful, uninterrupted time together.</p>
 			</div>
-			<div>
+			<div class="bs-benefit">
 				<div id="image06" class="image-component instance-6">
 					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image06.png' ) ); ?>" alt="" /></a>
 				</div>
-				<p id="text28" class="text-component instance-28" data-visibility="desktop"><span class="p">Stimulates the<br />senses</span></p>
-				<p id="text06" class="text-component instance-6" data-visibility="mobile">Stimulates the senses</p>
+				<p id="text28" class="text-component instance-28 bs-benefit-title" data-visibility="desktop"><span class="p">Stimulates the<br />senses</span></p>
+				<p id="text06" class="text-component instance-6 bs-benefit-title" data-visibility="mobile">Stimulates the senses</p>
 				<p id="text10" class="text-component instance-10">Supports early sensory and cognitive development.</p>
 			</div>
 		</div>

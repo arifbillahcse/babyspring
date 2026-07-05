@@ -198,11 +198,32 @@ setLabel(defaultLabel);
 });
 }
 
+// Reveals the .bs-benefit hover styling (see babysprings_benefits_css() in
+// functions.php) as each benefit card scrolls into view, since touch devices
+// have no hover state. Deliberately not a click/tap listener: the card's
+// icon frame already carries its own onclick="_scrollToTop()", and adding a
+// second listener on the same element would fire both on every tap.
+function setupBenefitReveal() {
+var cards = document.querySelectorAll('.bs-benefit');
+if (!cards.length || !('IntersectionObserver' in window)) return;
+
+var observer = new IntersectionObserver(function (entries) {
+entries.forEach(function (entry) {
+if (entry.isIntersecting) {
+entry.target.classList.add('is-active');
+}
+});
+}, { threshold: 0.5 });
+
+cards.forEach(function (card) { observer.observe(card); });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
 setupWaitlistForm(document.getElementById('form02'));
 setupWaitlistForm(document.getElementById('form03'));
 setupDateDisplay(document.getElementById('form02'));
 setupDateDisplay(document.getElementById('form03'));
+setupBenefitReveal();
 });
 })();
 </script>

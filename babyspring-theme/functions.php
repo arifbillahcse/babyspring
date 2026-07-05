@@ -49,6 +49,7 @@ function babysprings_assets() {
 	// along with it and leave the other form unstyled. Enqueuing it here
 	// keeps it in <head>, unaffected by that DOM swap.
 	wp_add_inline_style( 'babysprings-main', babysprings_waitlist_form_css() );
+	wp_add_inline_style( 'babysprings-main', babysprings_benefits_css() );
 
 	wp_enqueue_script(
 		'babysprings-main',
@@ -197,6 +198,86 @@ function babysprings_waitlist_form_css() {
 	}
 	@media (prefers-reduced-motion: reduce) {
 		.bs-wl-btn, .bs-wl-dot { animation: none; }
+	}
+	';
+}
+
+/**
+ * CSS for the interactive "benefit" cards (Supports development & movement /
+ * Promotes better sleep / etc. in front-page.php). The lit state applies on
+ * desktop hover, on tap (native :active — no click handler is used, since one
+ * would collide with the icon frame's existing onclick="_scrollToTop()"), and
+ * via the .is-active class, which footer.php's setupBenefitReveal() adds as
+ * each card scrolls into view on touch devices.
+ *
+ * @return string
+ */
+function babysprings_benefits_css() {
+	return '
+	.bs-benefit {
+		position: relative;
+		border-radius: 0.85rem;
+		transition: transform .4s ease;
+	}
+	.bs-benefit::before {
+		content: "";
+		position: absolute;
+		inset: -0.85rem -1rem;
+		border-radius: 1rem;
+		background: rgba(116,134,110,.08);
+		box-shadow: 0 1.5rem 2.5rem -1.5rem rgba(90,100,80,.35);
+		opacity: 0;
+		transform: scale(.96);
+		transition: opacity .4s ease, transform .4s ease;
+		z-index: -1;
+		pointer-events: none;
+	}
+	.bs-benefit .image-component > .frame > img {
+		transition: filter .4s ease !important;
+	}
+	.bs-benefit-title {
+		transition: color .4s ease;
+	}
+	.bs-benefit.is-active::before,
+	.bs-benefit:active::before {
+		opacity: 1;
+		transform: scale(1);
+	}
+	.bs-benefit.is-active,
+	.bs-benefit:active {
+		transform: translateY(-4px);
+	}
+	.bs-benefit.is-active .image-component > .frame > img,
+	.bs-benefit:active .image-component > .frame > img {
+		filter: saturate(1.4) brightness(1.08) drop-shadow(0 0 .5rem rgba(116,134,110,.5)) !important;
+	}
+	.bs-benefit.is-active .bs-benefit-title,
+	.bs-benefit:active .bs-benefit-title {
+		color: #74866E;
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.bs-benefit:hover::before {
+			opacity: 1;
+			transform: scale(1);
+		}
+		.bs-benefit:hover {
+			transform: translateY(-4px);
+		}
+		.bs-benefit:hover .image-component > .frame > img {
+			filter: saturate(1.4) brightness(1.08) drop-shadow(0 0 .5rem rgba(116,134,110,.5)) !important;
+		}
+		.bs-benefit:hover .bs-benefit-title {
+			color: #74866E;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.bs-benefit,
+		.bs-benefit::before,
+		.bs-benefit .image-component > .frame > img,
+		.bs-benefit-title {
+			transition: none !important;
+			transform: none !important;
+		}
 	}
 	';
 }
