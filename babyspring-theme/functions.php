@@ -50,6 +50,7 @@ function babysprings_assets() {
 	// keeps it in <head>, unaffected by that DOM swap.
 	wp_add_inline_style( 'babysprings-main', babysprings_waitlist_form_css() );
 	wp_add_inline_style( 'babysprings-main', babysprings_benefits_css() );
+	wp_add_inline_style( 'babysprings-main', babysprings_section_spacing_css() );
 
 	wp_enqueue_script(
 		'babysprings-main',
@@ -278,6 +279,39 @@ function babysprings_benefits_css() {
 			transition: none !important;
 			transform: none !important;
 		}
+	}
+	';
+}
+
+/**
+ * Normalizes the vertical spacing of the front page's simple (text/divider)
+ * sections: nav, the two dividers, the "Where early development..." heading,
+ * the benefits grid, the CTA divider row, FAQ and the footer.
+ *
+ * The Carrd export gives each of these its own --padding-vertical (0.5rem
+ * to 3rem — set on .container-component.instance-N > .wrapper > .inner,
+ * *not* on the outer .instance-N element, so an override has to repeat that
+ * full selector or it silently no-ops), so consecutive sections read as
+ * having noticeably different amounts of breathing room. This unifies them
+ * to one consistent value.
+ *
+ * Deliberately excludes instances 12, 6 and 10 (the hero and the two
+ * "Secure Your Spot" form sections): their vertical whitespace comes from
+ * align-items: center centering the text column against the taller photo
+ * column, not from this padding, so changing it wouldn't visibly help there.
+ *
+ * @return string
+ */
+function babysprings_section_spacing_css() {
+	return '
+	.container-component.instance-2 > .wrapper > .inner,
+	.container-component.instance-9 > .wrapper > .inner,
+	.container-component.instance-7 > .wrapper > .inner,
+	.container-component.instance-1 > .wrapper > .inner,
+	.container-component.instance-5 > .wrapper > .inner,
+	.container-component.instance-4 > .wrapper > .inner,
+	.container-component.instance-11 > .wrapper > .inner {
+		--padding-vertical: 1rem;
 	}
 	';
 }
