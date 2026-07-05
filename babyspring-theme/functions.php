@@ -51,6 +51,7 @@ function babysprings_assets() {
 	wp_add_inline_style( 'babysprings-main', babysprings_waitlist_form_css() );
 	wp_add_inline_style( 'babysprings-main', babysprings_benefits_css() );
 	wp_add_inline_style( 'babysprings-main', babysprings_section_spacing_css() );
+	wp_add_inline_style( 'babysprings-main', babysprings_logo_css() );
 
 	wp_enqueue_script(
 		'babysprings-main',
@@ -301,6 +302,32 @@ function babysprings_section_spacing_css() {
 	.container-component.instance-4 > .wrapper > .inner,
 	.container-component.instance-11 > .wrapper > .inner {
 		--padding-vertical: 1rem;
+	}
+	';
+}
+
+/**
+ * Swaps the homepage nav logo for the horizontal wordmark on mobile only
+ * (see front-page.php: .bs-logo-desktop-only / .bs-logo-mobile-only), while
+ * leaving the desktop logo untouched.
+ *
+ * @return string
+ */
+function babysprings_logo_css() {
+	return '
+	.image-component.bs-logo-mobile-only {
+		display: none;
+	}
+	@media (max-width: 736px) {
+		.image-component.bs-logo-desktop-only {
+			display: none;
+		}
+		.image-component.bs-logo-mobile-only {
+			display: block;
+		}
+		.image-component.instance-3.bs-logo-mobile-only > .frame {
+			width: 10rem;
+		}
 	}
 	';
 }
