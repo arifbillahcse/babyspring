@@ -215,23 +215,21 @@ function babysprings_waitlist_form_css() {
  */
 function babysprings_benefits_css() {
 	return '
-	.bs-benefit {
-		position: relative;
-		z-index: 1;
-		border-radius: 0.85rem;
-		transition: transform .3s ease;
+	.container-component.instance-1.columns > .wrapper > .inner {
+		align-items: stretch !important;
 	}
-	.bs-benefit::before {
-		content: "";
-		position: absolute;
-		inset: -1.25rem -0.5rem;
-		border-radius: 1rem;
+	.bs-benefit {
+		display: flex;
+	}
+	.bs-benefit-card {
+		flex: 1;
+		padding: 2.25rem 1.5rem;
+		text-align: center;
 		background: #f7f5f2;
 		border: 1px solid #e2dacb;
+		border-radius: 0.85rem;
 		box-shadow: 0 1.25rem 2.5rem -1.75rem rgba(90,100,80,.3);
-		z-index: -1;
-		transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease;
-		pointer-events: none;
+		transition: transform .3s ease, background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
 	}
 	.bs-benefit .image-component > .frame > img {
 		transition: filter .3s ease !important;
@@ -239,15 +237,12 @@ function babysprings_benefits_css() {
 	.bs-benefit-title {
 		transition: color .3s ease;
 	}
-	.bs-benefit.is-active::before,
-	.bs-benefit:active::before {
+	.bs-benefit.is-active .bs-benefit-card,
+	.bs-benefit:active .bs-benefit-card {
+		transform: translateY(-4px);
 		background: #eef1ec;
 		border-color: #c9d3c6;
 		box-shadow: 0 1.5rem 2.75rem -1.5rem rgba(90,100,80,.4);
-	}
-	.bs-benefit.is-active,
-	.bs-benefit:active {
-		transform: translateY(-4px);
 	}
 	.bs-benefit.is-active .image-component > .frame > img,
 	.bs-benefit:active .image-component > .frame > img {
@@ -258,13 +253,11 @@ function babysprings_benefits_css() {
 		color: #74866E;
 	}
 	@media (hover: hover) and (pointer: fine) {
-		.bs-benefit:hover::before {
+		.bs-benefit:hover .bs-benefit-card {
+			transform: translateY(-4px);
 			background: #eef1ec;
 			border-color: #c9d3c6;
 			box-shadow: 0 1.5rem 2.75rem -1.5rem rgba(90,100,80,.4);
-		}
-		.bs-benefit:hover {
-			transform: translateY(-4px);
 		}
 		.bs-benefit:hover .image-component > .frame > img {
 			filter: saturate(1.4) brightness(1.08) drop-shadow(0 0 .5rem rgba(116,134,110,.5)) !important;
@@ -274,8 +267,7 @@ function babysprings_benefits_css() {
 		}
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.bs-benefit,
-		.bs-benefit::before,
+		.bs-benefit-card,
 		.bs-benefit .image-component > .frame > img,
 		.bs-benefit-title {
 			transition: none !important;
