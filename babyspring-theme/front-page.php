@@ -674,43 +674,29 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 	});
 	</unloaded-script>
 </div>
-<div id="container11" class="container-component instance-11 columns full screen">
-	<div class="wrapper">
-		<div class="inner">
-			<div class="bs-footer-logo">
-				<div id="image11" class="image-component instance-11 bs-footer-logo-desktop">
-					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image11.png' ) ); ?>" alt="" /></a>
-				</div>
-				<div class="image-component instance-11 bs-footer-logo-mobile">
-					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/logo-horizontal.png' ) ); ?>" alt="" /></a>
-				</div>
-			</div>
-			<div>
-				<p id="text02" class="text-component instance-2"><span class="p"><?php echo esc_html( $babysprings_footer_meta ); ?></span><span class="p"><?php echo esc_html( $babysprings_footer_copyright ); ?></span></p>
-			</div>
-			<div>
-				<ul id="icons02" class="icons-component instance-2">
-					<?php
-					$babysprings_social_num = 0;
-					foreach ( $babysprings_socials as $babysprings_social_name => $babysprings_social ) {
-						if ( '' === trim( (string) $babysprings_social['url'] ) ) {
-							continue;
-						}
-						++$babysprings_social_num;
-						?>
-					<li>
-						<a class="n0<?php echo (int) $babysprings_social_num; ?>" href="<?php echo esc_url( $babysprings_social['url'] ); ?>" target="_blank" rel="noopener" role="button">
-							<svg aria-labelledby="icons02-icon-<?php echo (int) $babysprings_social_num; ?>-title"><title id="icons02-icon-<?php echo (int) $babysprings_social_num; ?>-title"><?php echo esc_html( $babysprings_social['label'] ); ?></title><use xlink:href="<?php echo esc_url( babysprings_asset( 'assets/icons.svg' ) ); ?>#<?php echo esc_attr( $babysprings_social_name ); ?>"></use></svg>
-							<span class="label"><?php echo esc_html( $babysprings_social['label'] ); ?></span>
-						</a>
-					</li>
-					<?php
-					}
-					?>
-				</ul>
-			</div>
+<footer class="ty-footer">
+	<div class="wrap">
+		<div class="ty-footer-meta">
+			<p><?php echo esc_html( $babysprings_footer_meta ); ?></p>
+			<p><?php echo esc_html( $babysprings_footer_copyright ); ?></p>
+		</div>
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-footer-logo ty-footer-logo-desktop"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image11.png' ) ); ?>" alt="Baby Springs" /></a>
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ty-footer-logo ty-footer-logo-mobile"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/logo-horizontal.png' ) ); ?>" alt="Baby Springs" /></a>
+		<div class="ty-socials">
+			<?php
+			foreach ( $babysprings_socials as $babysprings_social_name => $babysprings_social ) {
+				if ( '' === trim( (string) $babysprings_social['url'] ) ) {
+					continue;
+				}
+				?>
+			<a href="<?php echo esc_url( $babysprings_social['url'] ); ?>" target="_blank" rel="noopener" aria-label="<?php echo esc_attr( $babysprings_social['label'] ); ?>">
+				<svg viewBox="0 0 40 40"><use xlink:href="<?php echo esc_url( babysprings_asset( 'assets/icons.svg' ) ); ?>#<?php echo esc_attr( $babysprings_social_name ); ?>"></use></svg>
+			</a>
+			<?php
+			}
+			?>
 		</div>
 	</div>
-</div>
+</footer>
 <?php
 get_footer();

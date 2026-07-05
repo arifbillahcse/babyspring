@@ -309,74 +309,47 @@ function babysprings_section_spacing_css() {
 }
 
 /**
- * Swaps the homepage footer logo for the horizontal wordmark on mobile only
- * (see front-page.php: .bs-footer-logo-desktop / .bs-footer-logo-mobile),
- * leaving the desktop logo untouched. Centering is forced explicitly rather
- * than relying on the surrounding Carrd flex layout's own alignment, since
- * that stacks these footer columns on mobile without reliably centering an
- * individual item's own box (align-items only affects a flex item's box
- * when it isn't stretched to full width, which isn't guaranteed here).
+ * CSS for the .ty-footer markup (logo, meta text, social icons) — shared
+ * between front-page.php and page-thank-you.php so both footers are
+ * identical instead of one being a set of overrides fighting Carrd's own
+ * flex layout/CSS custom properties (which is what the previous version of
+ * this function did, and kept losing that fight in different ways).
  *
- * Also restyles the meta text and social icons on mobile to visually match
- * the Thank You page footer (circular filled icon buttons, centered text)
- * instead of the Carrd default (square outlined icons, no fill) — desktop
- * is untouched either way.
+ * page-thank-you.php also carries its own copy of these same rules inline
+ * (it's a standalone template with its own <style> block) — keep the two in
+ * sync if either changes.
  *
  * @return string
  */
 function babysprings_footer_logo_css() {
 	return '
-	.bs-footer-logo-mobile {
-		display: none;
+	.ty-footer { border-top: 1px solid #e2dacb; padding: 2.5rem 0; }
+	.ty-footer .wrap {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+		gap: 1.5rem;
 	}
-	@media (max-width: 736px) {
-		.bs-footer-logo {
-			width: 100% !important;
-			text-align: center;
-		}
-		.bs-footer-logo-desktop {
-			display: none;
-		}
-		.bs-footer-logo-mobile {
-			display: block;
-			margin: 0 auto;
-		}
-		.bs-footer-logo-mobile > .frame {
-			width: 12rem;
-		}
-		.container-component.instance-11 .text-component.instance-2 {
-			width: 100%;
-			text-align: center;
-		}
-		.container-component.instance-11 .icons-component.instance-2 {
-			--flex-alignment: center !important;
-			width: 100% !important;
-			margin: 0 auto !important;
-			text-align: center;
-			justify-content: center !important;
-			gap: .6rem !important;
-		}
-		.container-component.instance-11 .icons-component.instance-2 > li > a {
-			width: 2.4rem !important;
-			height: 2.4rem !important;
-			border-radius: 50%;
-			background: #f7f5f2;
-			border: 1px solid #e2dacb !important;
-			transition: background-color .2s ease !important;
-		}
-		.container-component.instance-11 .icons-component.instance-2 > li > a > svg {
-			width: 1.1rem !important;
-			height: 1.1rem !important;
-			fill: #6d675c !important;
-			transition: fill .2s ease !important;
-		}
-		.container-component.instance-11 .icons-component.instance-2 > li > a:hover {
-			background: #74866E !important;
-			border-color: #74866E !important;
-		}
-		.container-component.instance-11 .icons-component.instance-2 > li > a:hover > svg {
-			fill: #fff !important;
-		}
+	.ty-footer-logo img { height: 3.2rem; width: auto; }
+	.ty-footer-logo-mobile { display: none; }
+	.ty-footer-meta { font-size: .88rem; color: #6d675c; text-align: center; }
+	.ty-footer-meta p + p { margin-top: .3rem; }
+	.ty-socials { display: flex; gap: .6rem; justify-content: flex-end; }
+	.ty-socials a {
+		width: 2.4rem; height: 2.4rem; border-radius: 50%;
+		display: flex; align-items: center; justify-content: center;
+		background: #f7f5f2; border: 1px solid #e2dacb;
+		transition: background-color .2s ease;
+	}
+	.ty-socials a:hover { background: #74866E; }
+	.ty-socials a:hover svg { fill: #fff; }
+	.ty-socials svg { width: 1.1rem; height: 1.1rem; fill: #6d675c; transition: fill .2s ease; }
+	@media (max-width: 700px) {
+		.ty-footer .wrap { grid-template-columns: 1fr; text-align: center; }
+		.ty-socials { justify-content: center; }
+		.ty-footer-logo-desktop { display: none; }
+		.ty-footer-logo-mobile { display: inline-block; justify-self: center; }
+		.ty-footer-logo-mobile img { height: auto; width: 12rem; }
 	}
 	';
 }
