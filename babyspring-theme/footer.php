@@ -25,6 +25,41 @@ var KLAVIYO_SUBSCRIBE_URL = 'https://a.klaviyo.com/client/subscriptions/?company
 var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 var MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+// Looks up the visitor's approximate (city-level, IP-based) location at the
+// moment they submit, so it can be sent to Klaviyo immediately as part of
+// the signup instead of waiting on Klaviyo's own background IP enrichment
+// (which runs on its own schedule and can leave "Location" blank for a
+// while). Always resolves — never rejects — within ~2.5s, falling back to
+// null so a slow or failed lookup never blocks or breaks form submission.
+function lookupApproxLocation() {
+return new Promise(function (resolve) {
+var settled = false;
+function done(location) {
+if (settled) return;
+settled = true;
+resolve(location);
+}
+
+var timeoutId = setTimeout(function () { done(null); }, 2500);
+
+fetch('https://ipapi.co/json/', { headers: { Accept: 'application/json' } })
+.then(function (response) { return response.ok ? response.json() : null; })
+.then(function (data) {
+clearTimeout(timeoutId);
+if (!data || data.error) { done(null); return; }
+done({
+city: data.city || '',
+region: data.region || '',
+country: data.country_name || ''
+});
+})
+.catch(function () {
+clearTimeout(timeoutId);
+done(null);
+});
+});
+}
+
 // Native <input type="date"> values are always ISO (YYYY-MM-DD) regardless
 // of locale, so this parses that directly rather than via `new Date(value)`
 // (which reads it as UTC midnight and can display a day off in the browser's
@@ -152,6 +187,22 @@ isSubmitting = true;
 submitBtn.disabled = true;
 setLabel('Submitting...');
 
+lookupApproxLocation().then(function (location) {
+var profileAttributes = {
+email: email,
+properties: {
+full_name: name,
+baby_age: babyAge
+}
+};
+if (location) {
+profileAttributes.location = {
+city: location.city,
+region: location.region,
+country: location.country
+};
+}
+
 var payload = {
 data: {
 type: 'subscription',
@@ -159,13 +210,7 @@ attributes: {
 profile: {
 data: {
 type: 'profile',
-attributes: {
-email: email,
-properties: {
-full_name: name,
-baby_age: babyAge
-}
-},
+attributes: profileAttributes,
 subscriptions: {
 email: { marketing: { consent: 'SUBSCRIBED' } }
 }
@@ -178,7 +223,7 @@ list: { data: { type: 'list', id: KLAVIYO_LIST_ID } }
 }
 };
 
-fetch(KLAVIYO_SUBSCRIBE_URL, {
+return fetch(KLAVIYO_SUBSCRIBE_URL, {
 method: 'POST',
 headers: {
 'Content-Type': 'application/json',
@@ -186,6 +231,7 @@ Accept: 'application/json',
 revision: KLAVIYO_API_REVISION
 },
 body: JSON.stringify(payload)
+});
 })
 .then(function (response) {
 if (!response.ok) {
