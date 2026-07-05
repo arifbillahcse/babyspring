@@ -677,9 +677,12 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 <div id="container11" class="container-component instance-11 columns full screen">
 	<div class="wrapper">
 		<div class="inner">
-			<div>
-				<div id="image11" class="image-component instance-11">
+			<div class="bs-footer-logo">
+				<div id="image11" class="image-component instance-11 bs-footer-logo-desktop">
 					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/image11.png' ) ); ?>" alt="" /></a>
+				</div>
+				<div class="image-component instance-11 bs-footer-logo-mobile">
+					<a onclick="_scrollToTop();" tabindex="0" class="frame"><img src="<?php echo esc_url( babysprings_asset( 'assets/images/logo-horizontal.png' ) ); ?>" alt="" /></a>
 				</div>
 			</div>
 			<div>

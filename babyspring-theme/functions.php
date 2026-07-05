@@ -51,6 +51,7 @@ function babysprings_assets() {
 	wp_add_inline_style( 'babysprings-main', babysprings_waitlist_form_css() );
 	wp_add_inline_style( 'babysprings-main', babysprings_benefits_css() );
 	wp_add_inline_style( 'babysprings-main', babysprings_section_spacing_css() );
+	wp_add_inline_style( 'babysprings-main', babysprings_footer_logo_css() );
 
 	wp_enqueue_script(
 		'babysprings-main',
@@ -303,6 +304,41 @@ function babysprings_section_spacing_css() {
 	.container-component.instance-4 > .wrapper > .inner,
 	.container-component.instance-11 > .wrapper > .inner {
 		--padding-vertical: 1rem;
+	}
+	';
+}
+
+/**
+ * Swaps the homepage footer logo for the horizontal wordmark on mobile only
+ * (see front-page.php: .bs-footer-logo-desktop / .bs-footer-logo-mobile),
+ * leaving the desktop logo untouched. Centering is forced explicitly rather
+ * than relying on the surrounding Carrd flex layout's own alignment, since
+ * that stacks these footer columns on mobile without reliably centering an
+ * individual item's own box (align-items only affects a flex item's box
+ * when it isn't stretched to full width, which isn't guaranteed here).
+ *
+ * @return string
+ */
+function babysprings_footer_logo_css() {
+	return '
+	.bs-footer-logo-mobile {
+		display: none;
+	}
+	@media (max-width: 736px) {
+		.bs-footer-logo {
+			width: 100% !important;
+			text-align: center;
+		}
+		.bs-footer-logo-desktop {
+			display: none;
+		}
+		.bs-footer-logo-mobile {
+			display: block;
+			margin: 0 auto;
+		}
+		.bs-footer-logo-mobile > .frame {
+			width: 12rem;
+		}
 	}
 	';
 }
