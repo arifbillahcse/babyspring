@@ -104,6 +104,7 @@
 		@media (max-width: 700px) {
 			.ty-footer .wrap { grid-template-columns: 1fr; text-align: center; }
 			.ty-socials { justify-content: center; }
+			.ty-footer-logo img { height: 6rem; }
 		}
 	</style>
 	<?php wp_head(); ?>
