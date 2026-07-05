@@ -102,23 +102,25 @@ dateInput.addEventListener('change', sync);
 dateInput.addEventListener('input', sync);
 sync();
 
-// The display span sits on top of the (invisible) real input so its
-// text can be reformatted, which means clicks land on the span, not
-// the input underneath. Open the picker explicitly instead of relying
-// on the click passing through — that passthrough is inconsistent
-// across browsers and was the reported "date picker does not work" bug.
-display.addEventListener('click', function () {
+// The real input sits on top (invisible) and the display span
+// underneath just shows its reformatted text, with pointer-events
+// disabled so every tap/click lands on the real input — this is what
+// makes native pickers (including iOS's date wheel) open reliably,
+// since it's a genuine, direct user gesture on the actual input rather
+// than a synthetic one relayed from a sibling element. showPicker() is
+// still called explicitly on top of that, since some desktop browsers
+// (Firefox, older Safari) don't auto-open the calendar on a plain
+// click unless it lands on the small calendar icon specifically.
+dateInput.addEventListener('click', function () {
 if (typeof dateInput.showPicker === 'function') {
 try {
 dateInput.showPicker();
-return;
 } catch (err) {
-// Falls through to the focus/click fallback below.
+// Ignore — the direct tap/click above already reaches the
+// input natively, so the browser's own default handling
+// (opening its picker, or letting the user type a segment)
+// still applies even if this explicit call fails.
 }
-}
-dateInput.focus();
-if (typeof dateInput.click === 'function') {
-dateInput.click();
 }
 });
 }

@@ -108,7 +108,8 @@ function babysprings_waitlist_form_css() {
 		padding: 0;
 		border: 0;
 		opacity: 0;
-		z-index: 1;
+		cursor: pointer;
+		z-index: 2;
 	}
 	.bs-wl-date-display {
 		display: block;
@@ -122,7 +123,8 @@ function babysprings_waitlist_form_css() {
 		color: #2f2f2f;
 		cursor: pointer;
 		position: relative;
-		z-index: 2;
+		z-index: 1;
+		pointer-events: none;
 	}
 	.bs-wl-date-display.bs-wl-placeholder { color: #b3ad9f; }
 	.bs-wl-date-input:focus + .bs-wl-date-display {
