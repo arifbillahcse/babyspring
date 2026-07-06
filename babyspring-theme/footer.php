@@ -192,6 +192,7 @@ setLabel('Submitting...');
 lookupApproxLocation().then(function (location) {
 var profileAttributes = {
 email: email,
+first_name: name,
 properties: {
 full_name: name,
 baby_age: babyAge
