@@ -608,7 +608,7 @@ $babysprings_footer_copyright = babysprings_get_option( 'babysprings_footer_copy
 	<line x1="5" y1="12" x2="19" y2="12"/>
 	</svg>
 	</button>
-	<div class="bs-faq-a">Baby Springs sessions are designed for infants approximately 1–12 months old. Massage services are also available for toddlers up to 24 months depending on developmental stage and comfort.</div>
+	<div class="bs-faq-a">Baby Springs sessions are designed for infants approximately 1–24 months old. Massage services are also available for toddlers up to 36 months depending on developmental stage and comfort.</div>
 	</li>
 
 	<li class="bs-faq-item">
