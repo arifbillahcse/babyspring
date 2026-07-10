@@ -17,48 +17,17 @@
 (function () {
 'use strict';
 
-var KLAVIYO_LIST_ID = '<?php echo esc_js( babysprings_get_option( 'babysprings_klaviyo_list_id', 'Um8kBy' ) ); ?>';
-var KLAVIYO_PUBLIC_API_KEY = '<?php echo esc_js( babysprings_get_option( 'babysprings_klaviyo_public_key', 'Sqxup7' ) ); ?>';
-var KLAVIYO_API_REVISION = '<?php echo esc_js( babysprings_get_option( 'babysprings_klaviyo_revision', '2026-04-15' ) ); ?>';
+// The form posts to this same-origin WordPress endpoint (see
+// babysprings_register_rest_routes() in functions.php) instead of calling
+// a.klaviyo.com directly from the browser. Ad blockers / privacy browsers
+// block the klaviyo.com domain outright — silently failing real signups,
+// especially on mobile — but never touch a request to the site's own domain.
+// The server then relays to Klaviyo, and resolves location server-side too,
+// so no browser-side blocker is involved anywhere in the path.
+var SUBSCRIBE_ENDPOINT = '<?php echo esc_js( esc_url_raw( rest_url( 'babysprings/v1/subscribe' ) ) ); ?>';
 var THANK_YOU_URL = '<?php echo esc_js( babysprings_thank_you_url() ); ?>';
-var KLAVIYO_SUBSCRIBE_URL = 'https://a.klaviyo.com/client/subscriptions/?company_id=' + encodeURIComponent(KLAVIYO_PUBLIC_API_KEY);
 var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 var MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-// Looks up the visitor's approximate (city-level, IP-based) location at the
-// moment they submit, so it can be sent to Klaviyo immediately as part of
-// the signup instead of waiting on Klaviyo's own background IP enrichment
-// (which runs on its own schedule and can leave "Location" blank for a
-// while). Always resolves — never rejects — within ~2.5s, falling back to
-// null so a slow or failed lookup never blocks or breaks form submission.
-function lookupApproxLocation() {
-return new Promise(function (resolve) {
-var settled = false;
-function done(location) {
-if (settled) return;
-settled = true;
-resolve(location);
-}
-
-var timeoutId = setTimeout(function () { done(null); }, 2500);
-
-fetch('https://ipapi.co/json/', { headers: { Accept: 'application/json' } })
-.then(function (response) { return response.ok ? response.json() : null; })
-.then(function (data) {
-clearTimeout(timeoutId);
-if (!data || data.error) { done(null); return; }
-done({
-city: data.city || '',
-region: data.region || '',
-country: data.country_name || ''
-});
-})
-.catch(function () {
-clearTimeout(timeoutId);
-done(null);
-});
-});
-}
 
 // Native <input type="date"> values are always ISO (YYYY-MM-DD) regardless
 // of locale, so this parses that directly rather than via `new Date(value)`
@@ -189,71 +158,29 @@ isSubmitting = true;
 submitBtn.disabled = true;
 setLabel('Submitting...');
 
-lookupApproxLocation().then(function (location) {
-var profileAttributes = {
-email: email,
-first_name: name,
-properties: {
-full_name: name,
-baby_age: babyAge
-}
-};
-if (location) {
-profileAttributes.location = {
-city: location.city,
-region: location.region,
-country: location.country
-};
-}
-
-var payload = {
-data: {
-type: 'subscription',
-attributes: {
-profile: {
-data: {
-type: 'profile',
-attributes: profileAttributes,
-subscriptions: {
-email: { marketing: { consent: 'SUBSCRIBED' } }
-}
-}
-}
-},
-relationships: {
-list: { data: { type: 'list', id: KLAVIYO_LIST_ID } }
-}
-}
-};
-
-return fetch(KLAVIYO_SUBSCRIBE_URL, {
+fetch(SUBSCRIBE_ENDPOINT, {
 method: 'POST',
 headers: {
 'Content-Type': 'application/json',
-Accept: 'application/json',
-revision: KLAVIYO_API_REVISION
+Accept: 'application/json'
 },
-body: JSON.stringify(payload)
-});
+body: JSON.stringify({ name: name, email: email, baby_age: babyAge })
 })
 .then(function (response) {
-if (!response.ok) {
-return response.json().catch(function () { return null; }).then(function (errJson) {
-var detail = 'Klaviyo responded with status ' + response.status;
-if (errJson && errJson.errors && errJson.errors[0] && errJson.errors[0].detail) {
-detail = errJson.errors[0].detail;
-}
+return response.json().catch(function () { return null; }).then(function (body) {
+if (!response.ok || !body || !body.success) {
+var detail = (body && body.message) ? body.message : 'Something went wrong — please try again in a moment.';
 throw new Error(detail);
-});
 }
 
 form.reset();
 var resetDateInput = form.querySelector('.bs-wl-date-input');
 if (resetDateInput) resetDateInput.dispatchEvent(new Event('change'));
 window.location.href = THANK_YOU_URL;
+});
 })
 .catch(function (err) {
-console.error('Klaviyo subscribe failed:', err);
+console.error('Waitlist subscribe failed:', err);
 setLabel('Please try again.');
 showError('Something went wrong — please try again in a moment.');
 })

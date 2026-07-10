@@ -409,4 +409,189 @@ function babysprings_thank_you_url() {
 	return home_url( '/thank-you/' );
 }
 
+/**
+ * Register the server-side "bridge" REST endpoint the waitlist form submits to.
+ *
+ * The browser posts the signup here (same-origin, on the site's own domain)
+ * instead of calling a.klaviyo.com directly. Ad blockers, privacy browsers
+ * (Brave, mobile Safari tracking prevention) and some networks block known
+ * marketing/tracker domains like klaviyo.com outright, which silently killed
+ * real submissions — especially on mobile — while never affecting a
+ * same-origin request to the site itself. The PHP handler then relays the
+ * data to Klaviyo server-to-server, where no browser-side blocker can reach.
+ */
+function babysprings_register_rest_routes() {
+	register_rest_route(
+		'babysprings/v1',
+		'/subscribe',
+		array(
+			'methods'             => 'POST',
+			'callback'            => 'babysprings_handle_subscribe',
+			'permission_callback' => '__return_true', // Public: anonymous visitors submit the waitlist.
+		)
+	);
+}
+add_action( 'rest_api_init', 'babysprings_register_rest_routes' );
+
+/**
+ * Best-effort real client IP, accounting for the CDN/proxy the site sits
+ * behind (so geolocation reflects the visitor, not the edge server).
+ *
+ * @return string Validated IP, or '' if none could be determined.
+ */
+function babysprings_get_client_ip() {
+	$candidates = array();
+
+	if ( ! empty( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
+		$candidates[] = wp_unslash( $_SERVER['HTTP_CF_CONNECTING_IP'] );
+	}
+	if ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+		// May be a comma-separated chain; the left-most is the original client.
+		$forwarded  = explode( ',', wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
+		$candidates[] = trim( $forwarded[0] );
+	}
+	if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+		$candidates[] = wp_unslash( $_SERVER['REMOTE_ADDR'] );
+	}
+
+	foreach ( $candidates as $ip ) {
+		if ( filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			return $ip;
+		}
+	}
+
+	return '';
+}
+
+/**
+ * Resolve an approximate (city-level) location for an IP, server-side.
+ *
+ * Runs on the server rather than in the browser, so ad blockers — which only
+ * intercept the visitor's own outbound requests — can't block it. Always
+ * returns gracefully (null on any failure/timeout) so a slow or unreachable
+ * lookup never blocks the signup itself.
+ *
+ * @param string $ip Client IP.
+ * @return array|null { city, region, country } or null.
+ */
+function babysprings_lookup_location( $ip ) {
+	if ( '' === $ip || filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) === false ) {
+		return null; // No usable public IP (e.g. localhost / private range during testing).
+	}
+
+	$response = wp_remote_get(
+		'https://ipapi.co/' . rawurlencode( $ip ) . '/json/',
+		array(
+			'timeout' => 3,
+			'headers' => array( 'Accept' => 'application/json' ),
+		)
+	);
+
+	if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+		return null;
+	}
+
+	$data = json_decode( wp_remote_retrieve_body( $response ), true );
+	if ( ! is_array( $data ) || ! empty( $data['error'] ) ) {
+		return null;
+	}
+
+	return array(
+		'city'    => isset( $data['city'] ) ? (string) $data['city'] : '',
+		'region'  => isset( $data['region'] ) ? (string) $data['region'] : '',
+		'country' => isset( $data['country_name'] ) ? (string) $data['country_name'] : '',
+	);
+}
+
+/**
+ * Relay a waitlist signup to Klaviyo server-to-server.
+ *
+ * @param WP_REST_Request $request Incoming request ({ name, email, baby_age }).
+ * @return WP_REST_Response
+ */
+function babysprings_handle_subscribe( WP_REST_Request $request ) {
+	$name     = sanitize_text_field( (string) $request->get_param( 'name' ) );
+	$email    = sanitize_email( (string) $request->get_param( 'email' ) );
+	$baby_age = sanitize_text_field( (string) $request->get_param( 'baby_age' ) );
+
+	if ( '' === $name ) {
+		return new WP_REST_Response( array( 'success' => false, 'message' => 'Please enter your name.' ), 400 );
+	}
+	if ( '' === $email || ! is_email( $email ) ) {
+		return new WP_REST_Response( array( 'success' => false, 'message' => 'Please enter a valid email address.' ), 400 );
+	}
+
+	$list_id  = babysprings_get_option( 'babysprings_klaviyo_list_id', 'Um8kBy' );
+	$api_key  = babysprings_get_option( 'babysprings_klaviyo_public_key', 'Sqxup7' );
+	$revision = babysprings_get_option( 'babysprings_klaviyo_revision', '2026-04-15' );
+
+	$profile_attributes = array(
+		'email'      => $email,
+		'first_name' => $name,
+		'properties' => array(
+			'full_name' => $name,
+			'baby_age'  => $baby_age,
+		),
+	);
+
+	$location = babysprings_lookup_location( babysprings_get_client_ip() );
+	if ( $location ) {
+		$profile_attributes['location'] = $location;
+	}
+
+	$payload = array(
+		'data' => array(
+			'type'       => 'subscription',
+			'attributes' => array(
+				'profile' => array(
+					'data' => array(
+						'type'          => 'profile',
+						'attributes'    => $profile_attributes,
+						'subscriptions' => array(
+							'email' => array( 'marketing' => array( 'consent' => 'SUBSCRIBED' ) ),
+						),
+					),
+				),
+			),
+			'relationships' => array(
+				'list' => array( 'data' => array( 'type' => 'list', 'id' => $list_id ) ),
+			),
+		),
+	);
+
+	$response = wp_remote_post(
+		'https://a.klaviyo.com/client/subscriptions/?company_id=' . rawurlencode( $api_key ),
+		array(
+			'timeout' => 8,
+			'headers' => array(
+				'Content-Type' => 'application/json',
+				'Accept'       => 'application/json',
+				'revision'     => $revision,
+			),
+			'body'    => wp_json_encode( $payload ),
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		return new WP_REST_Response(
+			array( 'success' => false, 'message' => 'Something went wrong — please try again in a moment.' ),
+			502
+		);
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	if ( 202 === $code || ( $code >= 200 && $code < 300 ) ) {
+		return new WP_REST_Response( array( 'success' => true ), 200 );
+	}
+
+	// Surface Klaviyo's own error detail when it provides one.
+	$body    = json_decode( wp_remote_retrieve_body( $response ), true );
+	$message = 'Something went wrong — please try again in a moment.';
+	if ( is_array( $body ) && ! empty( $body['errors'][0]['detail'] ) ) {
+		$message = (string) $body['errors'][0]['detail'];
+	}
+
+	return new WP_REST_Response( array( 'success' => false, 'message' => $message ), 502 );
+}
+
 require_once get_theme_file_path( 'inc/customizer.php' );
