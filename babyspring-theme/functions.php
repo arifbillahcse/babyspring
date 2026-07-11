@@ -504,23 +504,17 @@ function babysprings_lookup_location( $ip ) {
 }
 
 /**
- * Relay a waitlist signup to Klaviyo server-to-server.
+ * Send a single profile to Klaviyo server-to-server. Pure relay — no local
+ * storage, no request/response objects — so both the live submission
+ * handler and the wp-admin "Retry" action can share it.
  *
- * @param WP_REST_Request $request Incoming request ({ name, email, baby_age }).
- * @return WP_REST_Response
+ * @param string     $name     Visitor's name.
+ * @param string     $email    Visitor's email.
+ * @param string     $baby_age Baby's age / due date, as entered.
+ * @param array|null $location { city, region, country } or null to omit.
+ * @return array { success: bool, message: string }
  */
-function babysprings_handle_subscribe( WP_REST_Request $request ) {
-	$name     = sanitize_text_field( (string) $request->get_param( 'name' ) );
-	$email    = sanitize_email( (string) $request->get_param( 'email' ) );
-	$baby_age = sanitize_text_field( (string) $request->get_param( 'baby_age' ) );
-
-	if ( '' === $name ) {
-		return new WP_REST_Response( array( 'success' => false, 'message' => 'Please enter your name.' ), 400 );
-	}
-	if ( '' === $email || ! is_email( $email ) ) {
-		return new WP_REST_Response( array( 'success' => false, 'message' => 'Please enter a valid email address.' ), 400 );
-	}
-
+function babysprings_relay_to_klaviyo( $name, $email, $baby_age, $location ) {
 	$list_id  = babysprings_get_option( 'babysprings_klaviyo_list_id', 'Um8kBy' );
 	$api_key  = babysprings_get_option( 'babysprings_klaviyo_public_key', 'Sqxup7' );
 	$revision = babysprings_get_option( 'babysprings_klaviyo_revision', '2026-04-15' );
@@ -533,8 +527,6 @@ function babysprings_handle_subscribe( WP_REST_Request $request ) {
 			'baby_age'  => $baby_age,
 		),
 	);
-
-	$location = babysprings_lookup_location( babysprings_get_client_ip() );
 	if ( $location ) {
 		$profile_attributes['location'] = $location;
 	}
@@ -573,25 +565,203 @@ function babysprings_handle_subscribe( WP_REST_Request $request ) {
 	);
 
 	if ( is_wp_error( $response ) ) {
-		return new WP_REST_Response(
-			array( 'success' => false, 'message' => 'Something went wrong — please try again in a moment.' ),
-			502
-		);
+		return array( 'success' => false, 'message' => $response->get_error_message() );
 	}
 
 	$code = wp_remote_retrieve_response_code( $response );
-	if ( 202 === $code || ( $code >= 200 && $code < 300 ) ) {
-		return new WP_REST_Response( array( 'success' => true ), 200 );
+	if ( $code >= 200 && $code < 300 ) {
+		return array( 'success' => true, 'message' => '' );
 	}
 
 	// Surface Klaviyo's own error detail when it provides one.
 	$body    = json_decode( wp_remote_retrieve_body( $response ), true );
-	$message = 'Something went wrong — please try again in a moment.';
+	$message = 'Klaviyo responded with status ' . $code;
 	if ( is_array( $body ) && ! empty( $body['errors'][0]['detail'] ) ) {
 		$message = (string) $body['errors'][0]['detail'];
 	}
 
-	return new WP_REST_Response( array( 'success' => false, 'message' => $message ), 502 );
+	return array( 'success' => false, 'message' => $message );
 }
+
+/**
+ * Handle an incoming waitlist signup: save it locally first (so a lead is
+ * never lost even if Klaviyo is down, an API key/revision changes, etc.),
+ * then attempt the Klaviyo relay and record the outcome on the saved entry.
+ *
+ * Success is reported to the visitor once the local save succeeds — the
+ * Klaviyo sync result is tracked separately (see "Klaviyo" column in
+ * wp-admin → Waitlist) rather than surfaced as a form error, since a
+ * transient Klaviyo hiccup shouldn't make someone re-submit and create a
+ * duplicate entry when we've already captured them.
+ *
+ * @param WP_REST_Request $request Incoming request ({ name, email, baby_age }).
+ * @return WP_REST_Response
+ */
+function babysprings_handle_subscribe( WP_REST_Request $request ) {
+	$name     = sanitize_text_field( (string) $request->get_param( 'name' ) );
+	$email    = sanitize_email( (string) $request->get_param( 'email' ) );
+	$baby_age = sanitize_text_field( (string) $request->get_param( 'baby_age' ) );
+
+	if ( '' === $name ) {
+		return new WP_REST_Response( array( 'success' => false, 'message' => 'Please enter your name.' ), 400 );
+	}
+	if ( '' === $email || ! is_email( $email ) ) {
+		return new WP_REST_Response( array( 'success' => false, 'message' => 'Please enter a valid email address.' ), 400 );
+	}
+
+	$location = babysprings_lookup_location( babysprings_get_client_ip() );
+
+	$post_id = wp_insert_post(
+		array(
+			'post_type'   => 'babysprings_lead',
+			'post_title'  => $name,
+			'post_status' => 'publish',
+		),
+		true
+	);
+
+	if ( is_wp_error( $post_id ) ) {
+		return new WP_REST_Response(
+			array( 'success' => false, 'message' => 'Something went wrong — please try again in a moment.' ),
+			500
+		);
+	}
+
+	update_post_meta( $post_id, '_babysprings_email', $email );
+	update_post_meta( $post_id, '_babysprings_baby_age', $baby_age );
+	update_post_meta( $post_id, '_babysprings_location', $location ? $location : '' );
+
+	$klaviyo = babysprings_relay_to_klaviyo( $name, $email, $baby_age, $location );
+	update_post_meta( $post_id, '_babysprings_klaviyo_status', $klaviyo['success'] ? 'synced' : 'failed' );
+	update_post_meta( $post_id, '_babysprings_klaviyo_error', $klaviyo['success'] ? '' : $klaviyo['message'] );
+
+	return new WP_REST_Response( array( 'success' => true ), 200 );
+}
+
+/**
+ * Private post type backing wp-admin → Waitlist. Not public: it's an
+ * internal record of signups, not frontend content.
+ */
+function babysprings_register_waitlist_cpt() {
+	register_post_type(
+		'babysprings_lead',
+		array(
+			'labels'       => array(
+				'name'          => __( 'Waitlist', 'babyspring' ),
+				'singular_name' => __( 'Waitlist Entry', 'babyspring' ),
+				'menu_name'     => __( 'Waitlist', 'babyspring' ),
+				'all_items'     => __( 'All Entries', 'babyspring' ),
+			),
+			'public'       => false,
+			'show_ui'      => true,
+			'show_in_menu' => true,
+			'menu_icon'    => 'dashicons-clipboard',
+			'supports'     => array( 'title' ),
+			'capabilities' => array(
+				'create_posts' => 'do_not_allow', // Entries only ever come from the subscribe endpoint.
+			),
+			'map_meta_cap' => true,
+		)
+	);
+}
+add_action( 'init', 'babysprings_register_waitlist_cpt' );
+
+/**
+ * Waitlist admin list table: replace the default columns with the fields
+ * that actually matter for a lead (email, baby age, location, Klaviyo sync
+ * status), title used for the visitor's name.
+ *
+ * @param array $columns Default columns.
+ * @return array
+ */
+function babysprings_waitlist_columns( $columns ) {
+	return array(
+		'cb'                    => $columns['cb'],
+		'title'                 => __( 'Name', 'babyspring' ),
+		'babysprings_email'     => __( 'Email', 'babyspring' ),
+		'babysprings_baby_age'  => __( "Baby's Age / Due Date", 'babyspring' ),
+		'babysprings_location'  => __( 'Location', 'babyspring' ),
+		'babysprings_klaviyo'   => __( 'Klaviyo', 'babyspring' ),
+		'date'                  => __( 'Submitted', 'babyspring' ),
+	);
+}
+add_filter( 'manage_babysprings_lead_posts_columns', 'babysprings_waitlist_columns' );
+
+/**
+ * Render each custom waitlist column's content.
+ *
+ * @param string $column  Column key.
+ * @param int    $post_id Post ID.
+ */
+function babysprings_waitlist_column_content( $column, $post_id ) {
+	switch ( $column ) {
+		case 'babysprings_email':
+			echo esc_html( get_post_meta( $post_id, '_babysprings_email', true ) );
+			break;
+
+		case 'babysprings_baby_age':
+			$baby_age = get_post_meta( $post_id, '_babysprings_baby_age', true );
+			echo '' === $baby_age ? '—' : esc_html( $baby_age );
+			break;
+
+		case 'babysprings_location':
+			$location = get_post_meta( $post_id, '_babysprings_location', true );
+			if ( is_array( $location ) ) {
+				$parts = array_filter( array( $location['city'], $location['region'], $location['country'] ) );
+				echo esc_html( $parts ? implode( ', ', $parts ) : '—' );
+			} else {
+				echo '—';
+			}
+			break;
+
+		case 'babysprings_klaviyo':
+			$status = get_post_meta( $post_id, '_babysprings_klaviyo_status', true );
+			if ( 'synced' === $status ) {
+				echo '<span style="color:#2a7a2a;">&#10003; Synced</span>';
+				break;
+			}
+			$error = get_post_meta( $post_id, '_babysprings_klaviyo_error', true );
+			echo '<span style="color:#b3453a;" title="' . esc_attr( $error ) . '">&#10007; Failed</span> ';
+			$url = wp_nonce_url(
+				admin_url( 'admin-post.php?action=babysprings_retry_klaviyo&post_id=' . $post_id ),
+				'babysprings_retry_' . $post_id
+			);
+			echo '<a href="' . esc_url( $url ) . '">Retry</a>';
+			break;
+	}
+}
+add_action( 'manage_babysprings_lead_posts_custom_column', 'babysprings_waitlist_column_content', 10, 2 );
+
+/**
+ * wp-admin action: re-attempt the Klaviyo relay for one saved entry, using
+ * exactly the data captured at signup time (including its original
+ * location lookup, not a fresh one).
+ */
+function babysprings_handle_retry_klaviyo() {
+	$post_id = isset( $_GET['post_id'] ) ? (int) $_GET['post_id'] : 0;
+	check_admin_referer( 'babysprings_retry_' . $post_id );
+
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		wp_die( esc_html__( 'You are not allowed to do that.', 'babyspring' ), 403 );
+	}
+
+	$post = get_post( $post_id );
+	if ( ! $post || 'babysprings_lead' !== $post->post_type ) {
+		wp_die( esc_html__( 'Entry not found.', 'babyspring' ), 404 );
+	}
+
+	$email    = get_post_meta( $post_id, '_babysprings_email', true );
+	$baby_age = get_post_meta( $post_id, '_babysprings_baby_age', true );
+	$location = get_post_meta( $post_id, '_babysprings_location', true );
+
+	$klaviyo = babysprings_relay_to_klaviyo( $post->post_title, $email, $baby_age, is_array( $location ) ? $location : null );
+	update_post_meta( $post_id, '_babysprings_klaviyo_status', $klaviyo['success'] ? 'synced' : 'failed' );
+	update_post_meta( $post_id, '_babysprings_klaviyo_error', $klaviyo['success'] ? '' : $klaviyo['message'] );
+
+	$redirect = wp_get_referer();
+	wp_safe_redirect( $redirect ? $redirect : admin_url( 'edit.php?post_type=babysprings_lead' ) );
+	exit;
+}
+add_action( 'admin_post_babysprings_retry_klaviyo', 'babysprings_handle_retry_klaviyo' );
 
 require_once get_theme_file_path( 'inc/customizer.php' );
